@@ -194,6 +194,12 @@ if($type!="Teacher"){
                 <button type="submit" class="btn btn-primary" name="viewCTmarks" >view CT-Mark Sheet</button>
             </form>
         </div>
+
+        <div class="btn-group">
+            <form  method='post'>
+                <button type="submit" class="btn btn-primary" name="finalmark" >add Final Mark</button>
+            </form>
+        </div>
         
         <div class="btn-group">
             <form  method='post'>
@@ -207,8 +213,240 @@ if($type!="Teacher"){
         
     <?php
 
+//
+
+//______________final marks_____________
+if(isset($_POST["finalmark"]))
+{
+
+
+    global $id,$con;
+    $datatable ="course";
+    $s = "select * from $datatable where  personID = '$id' ";
+    $result = mysqli_query($con,$s);
+    $num = mysqli_num_rows($result);
+    if($num!=0)
+    {
+
+        ?>
+
+    <div class="d-flex justify-content-center">
+    <div class="list"  >
+    <h3 style="text-align: center;"> view Result </h3>
+    <form method='post'>
+        <div>
+        <label>Course Code</label>
+            <select class="form-control" name="course" required>
+                <?php  
+                 global $id,$con;
+                 $datatable ="course";
+                 $s = "select * from $datatable where  personID = '$id' ";
+                 $result = mysqli_query($con,$s);
+                 $num = mysqli_num_rows($result);        
+                 
+                while( $var = mysqli_fetch_assoc($result))
+                    { ?><option value="<?php echo $var['course']?>" ><?php echo $var['course']?></option>
+                        <?php
+                    }
+            
+                    ?>
+            </select>
+
+        </div>
+    
+        <div class="form-group">
+            <label>Roll range</label>
+            <input type="text" name="rollStart" class="form-control" required>
+            <br>
+            <input type="text" name="rollEnd" class="form-control" required>
+        </div>
+        <div class="d-flex justify-content-end">
+
+        <button type="submit" class="btn btn-success" name="getfinalmark" >NEXT</button>
+
+        </div>
+    </form> 
+
+    </div>
+    </div>
+    <?php
+
+               
+    }
+    else
+    {
+        ?>
+
+    <div class="d-flex justify-content-center">
+        
+    <div class='list'>
+        <div class="minibox">
+            <h3>No Course are available</h3>
+
+        </div>
+        <div class="minibox">
+            <div class="form-group"> 
+                <form  method='post'>
+                    <button type="submit" class="btn btn-success btn-block " name="addCourse" >Add Course</button>
+                </form>
+            </div>
+        </div>
+    </div>
+       
+    </div>
+
+      <?php
+
+
+    }
+
+
+
+
+
+}
+
+if(isset($_POST["getfinalmark"]))
+{
+
+    $rollStart = $_POST['rollStart'];
+        $rollEnd = $_POST['rollEnd'];
+        $course = $_POST['course'];
+
+
+
+        ?>
+         <div class="d-flex justify-content-center" >
+             <div class="list">
+        <form method='post'>
+                <input type="hidden" name="rollStart" value="<?php echo $rollStart?>">
+                <input type="hidden" name="rollEnd" value="<?php echo $rollEnd?>">
+                <input type="hidden" name="course" value="<?php echo $course?>">
+
+        
+            <table class="table table-striped table-bordered" style="max-width: 500px;">
+                <tr>
+                    <td>Roll</td>
+                    <td>Part-A</td>
+                    <td>Part-B</td>
+                </tr>
+        
+        <?php
+        $datatable='finalmark';
+        for($i=$rollStart;$i<=$rollEnd;$i++)
+        {
+
+            $s = "select * from $datatable where  course='$course' && roll='$i' ORDER BY id DESC";
+            $result = mysqli_query($con,$s);
+            $num = mysqli_num_rows($result);
+
+            $valueA;
+            $valueB;
+            if($num==0)
+            {
+                $valueA=''; 
+                $valueB='';
+
+            }
+            else
+            {
+                $var = mysqli_fetch_assoc($result);         
+                $valueA=$var['partA'];
+                $valueB=$var['partB'];
+            }
+
+
+            ?>
+
+				<tr>
+                    <td><?php echo $i?></td>
+                    <td style="text-align: center;"><input type="text" value="<?php echo $valueA?>" name="A<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="text" value="<?php echo $valueB?>" name="B<?php echo $i?>"></td>
+                </tr>
+                   
+            <?php
+
+        }
+
+        ?>
+        </table>
+
+            <button type="submit" class="btn btn-success  btn-block" name="savefinalmarks" >Save</button>
+
+        </form>
+         </div>
+         </div>
+        
+        <?php
+        
+
 
    
+
+}
+if(isset($_POST["savefinalmarks"]))
+{
+
+    global $name;
+    global $con;
+
+    $rollStart = $_POST['rollStart'];
+
+    $rollEnd = $_POST['rollEnd'];
+    $course = $_POST['course'];
+
+
+    $datatable="finalmark";
+   
+    for($i=$rollStart;$i<=$rollEnd;$i++)
+    {
+
+        $xA=$_POST['A'.$i];
+        $xB=$_POST['B'.$i];
+        if($xA==""&&$xB=="")
+        {
+            $xA='A';
+            $xB='A';
+        }
+
+        $s = "select * from $datatable where  course='$course' && roll='$i' ORDER BY id DESC";
+        $result = mysqli_query($con,$s);
+        $num = mysqli_num_rows($result);
+
+        if($num==0)
+        {
+            $query = "INSERT INTO $datatable VALUES('','$i','$course','$xA','$xB','$name') ";
+
+            mysqli_query($con,$query);
+  
+        }
+        else
+        {
+            $var = mysqli_fetch_assoc($result);         
+            $newID=$var['id'];
+
+            $query = "UPDATE $datatable  SET partA='$xA',partB='$xB',teacher='$name' WHERE id=$newID";
+
+            mysqli_query($con,$query);
+
+
+        }
+
+    }
+
+
+    ?>
+    <div class="d-flex justify-content-center">
+    <div class="list">
+    <h3>Data Store successfully</h3>
+    </div></div>
+    <?php
+
+   
+
+
+
+}
 
 
 
@@ -416,15 +654,6 @@ if($type!="Teacher"){
         </div>
         </div>
         <?php
-
-
-       
-
-
-
-
-
-
     }
 
 
