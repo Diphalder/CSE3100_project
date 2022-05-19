@@ -1,1 +1,2 @@
-# RUET-Assitant# CSE3100_project
+#Project name : RUET-Assitant
+## Course: CSE3100
