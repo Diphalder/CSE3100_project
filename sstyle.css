@@ -126,3 +126,12 @@ img {
 table {
     border-radius: 5px;
 }
+
+.Bad {
+    background-color: red;
+    color: red;
+}
+
+.Good {
+    color: green;
+}

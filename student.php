@@ -283,7 +283,26 @@ if(isset($_POST["addroll"]))
 
   if(isset($_POST["viewCourse"]))
   {
-      showCourse();
+
+    if($roll!='')
+    {
+        showCourse();
+    }
+    else
+    {
+        ?>
+        <div class="d-flex justify-content-center">
+            <div class="list">
+                <h3>Please add Roll number</h3>
+            </div>
+        </div>
+        <?php
+
+
+    }
+
+
+     
   }
 
 
@@ -557,7 +576,10 @@ showCourse();
   if(isset($_POST["viewResult"]))
   {
 
-    $datatableMarks='marks';
+    if($roll!='')
+    {
+
+        $datatableMarks='marks';
     $datatableAttendance ="attendance";
 
     $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
@@ -819,6 +841,29 @@ showCourse();
     </div>
     </div>
     </div><?php
+
+
+
+    
+        
+
+
+
+
+
+    }
+    else
+    {
+        ?>
+        <div class="d-flex justify-content-center">
+            <div class="list">
+                <h3>Please add Roll number</h3>
+            </div>
+        </div>
+        <?php
+
+
+    }
 
 
 

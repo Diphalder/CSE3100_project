@@ -33,20 +33,24 @@ require 'connect_DB.php';
                 </div>
             
                 <div class="form-group">
-					<label>Email</label>
+					<label>Email*</label>
 					<input type="email" name="email" class="form-control" required>
 				</div>
 
 				<div class="form-group">
-					<label>password</label>
+					<label>password*</label>
 					<input type="password" name="password" class="form-control" required>
 				</div>
                 <div class="form-group">
-					<label>Secret Code</label>
+					<label>Re-password*</label>
+					<input type="password" name="repassword" class="form-control"   required>
+				</div>
+                <div class="form-group">
+					<label>Secret Code*</label>
 					<input type="password" name="code" class="form-control" required>
 				</div>
                 <div class="form-group">
-					<label>Name</label>
+					<label>Name*</label>
 					<input type="text" name="name" class="form-control" required>
 				</div>
                 <div class="form-group">
@@ -65,7 +69,7 @@ require 'connect_DB.php';
         
             
 
-	</div>
+	
 
     <?php 
 
@@ -80,6 +84,7 @@ if(isset($_POST["loginSubmit"]))
 
     $email = $_POST['email'];
     $pass = $_POST['password'];
+    $repass = $_POST['repassword'];
     $type = $_POST['type'];
     $code = $_POST['code'];
     $name = $_POST['name'];
@@ -94,51 +99,104 @@ if(isset($_POST["loginSubmit"]))
 
 
 
-
-    if($num==0&&($code==47&&$type=="Teacher")||($code==67&&$type=="Student"))
+    if($pass==$repass)
     {
-        session_start();
 
 
-        $query = "INSERT INTO $datatableLogin(id,email,password,type,name,dept,phone,roll) VALUES('','$email','$pass','$type','$name','$dept','$phone','') ";
+        if($num==0)
+        {
 
-        mysqli_query($con,$query);
-        if(mysqli_query($con,$sql)){
-	        echo "<script>alert('data stored');</script>";
-            }else{
-            echo mysqli_error($con);
+            if(($code==47&&$type=="Teacher")||($code==67&&$type=="Student"))
+            {
+                session_start();
+    
+    
+                $query = "INSERT INTO $datatableLogin VALUES('','$email','$pass','$type','$name','$dept','$phone','') ";
+        
+                mysqli_query($con,$query);
+                if(mysqli_query($con,$query)){
+                    echo "<script>alert('data stored');</script>";
+                    }else{
+                    echo mysqli_error($con);
+                    }
+        
+        
+                $s = "select * from $datatableLogin where email='$email' && password = '$pass' && type='$type' ";
+                $result = mysqli_query($con,$s);
+                $var = mysqli_fetch_assoc($result);
+        
+        
+                $_SESSION['id']= $var["id"];
+                $_SESSION['email']= $email ;
+                $_SESSION['pass']= $pass ;
+                $_SESSION['name']= $name ;
+                $_SESSION['dept']=$dept ;
+                $_SESSION['phone']=$phone ;
+                $_SESSION['type']=$type;
+        
+                if($type=="Teacher"){
+        
+                    header('location:teacher.php');
+        
+                }
+                if($type=="Student")
+                {
+                    header('location:student.php');
+        
+                }
+
+
+            }
+            else
+            {
+                ?>
+            <div class="d-flex justify-content-center">
+                <div class="list ">
+                 <h3 class="Bad">Secret-code Wrong</h3>
+            </div>
+            </div>
+             <?php
+
+
+
             }
 
 
-        $s = "select * from $datatableLogin where email='$email' && password = '$pass' && type='$type' ";
-        $result = mysqli_query($con,$s);
-        $var = mysqli_fetch_assoc($result);
 
-
-        $_SESSION['id']= $var["id"];
-        $_SESSION['email']= $email ;
-        $_SESSION['pass']= $pass ;
-        $_SESSION['name']= $name ;
-        $_SESSION['dept']=$dept ;
-        $_SESSION['phone']=$phone ;
-        $_SESSION['type']=$type;
-
-        if($type=="Teacher"){
-
-            header('location:teacher.php');
 
         }
-        if($type=="Student")
-        {
-            header('location:student.php');
+        else{
+
+            ?>
+        <div class="d-flex justify-content-center  ">
+            <div class="list">
+                <h3 class="Bad">Email already exist</h3>
+            </div>
+        </div>
+        <?php
+
+
+
 
         }
 
+
+
     }
-    else
-    {
-        echo "Secret code wrong or Email already exist";
+    else{
+
+        ?>
+        <div class="d-flex justify-content-center">
+            <div class="list ">
+                <h3 class="Bad">Password is diffrent</h3>
+            </div>
+        </div>
+        <?php
+    
+
     }
+
+   
 
 
 
@@ -153,7 +211,7 @@ if(isset($_POST["loginSubmit"]))
 
 
 
-
+    </div>
 </body>
 
 

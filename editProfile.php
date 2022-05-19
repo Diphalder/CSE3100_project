@@ -103,15 +103,15 @@ $phone=$v['phone'];
             
 
 				<div class="form-group">
-					<label>password</label>
+					<label>password*</label>
 					<input type="password" name="password" class="form-control"  value="<?php echo $pass ?>" required>
 				</div>
                 <div class="form-group">
-					<label>Re-password</label>
+					<label>Re-password*</label>
 					<input type="password" name="repassword" class="form-control"  value="<?php echo $pass ?>" required>
 				</div>
                 <div class="form-group">
-					<label>Name</label>
+					<label>Name*</label>
 					<input type="text" name="name" class="form-control"  value="<?php echo $name ?>" required>
 				</div>
 
@@ -121,7 +121,7 @@ $phone=$v['phone'];
                     ?>
                       <div class="form-group">
 					<label>Roll</label>
-					<input type="text" name="roll" class="form-control"  value="<?php echo $roll ?>">
+					<input type="text" name="roll" class="form-control"  value="<?php echo $roll ?>" required>
 				    </div>
 
                     <?php
@@ -206,6 +206,7 @@ if(isset($_POST["loginSubmit"]))
     $name = $_POST['name'];
     $dept = $_POST['dept'];
     $phone = $_POST['phone'];
+    $roll =$_POST['roll'];
 
     if($pass==$repass)
     {  
