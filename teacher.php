@@ -360,8 +360,8 @@ if(isset($_POST["getfinalmark"]))
 
 				<tr>
                     <td><?php echo $i?></td>
-                    <td style="text-align: center;"><input type="text" value="<?php echo $valueA?>" name="A<?php echo $i?>"></td>
-                    <td style="text-align: center;"><input type="text" value="<?php echo $valueB?>" name="B<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" value="<?php echo $valueA?>" name="A<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" value="<?php echo $valueB?>" name="B<?php echo $i?>"></td>
                 </tr>
                    
             <?php
