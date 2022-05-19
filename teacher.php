@@ -20,6 +20,9 @@ $dept=$v['dept'];
 $phone=$v['phone'];
 
 
+$dtfinalmark='finalmark';
+
+
 
 
 $dtPhoto='photo';
@@ -1328,7 +1331,7 @@ showCourse();
 
 				<tr>
                     <td><?php echo $i?></td>
-                    <td style="text-align: center;"><input type="text" value="<?php echo $value?>" name="<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" value="<?php echo $value?>" name="<?php echo $i?>"></td>
                 </tr>
                    
             <?php
@@ -1711,10 +1714,14 @@ showCourse();
             <table class="table table-striped table-bordered " >
                 <tr>
                     <td><h5>Roll</h5></td>
-                    <td><h5>Percentage of Attendance</h5></td>
-                    <td><h5>Attendance Marks</h5></td>
+                    <td><h5>Percentage of <br>Attendance</h5></td>
+                    <td><h5>Attendance<br> Marks</h5></td>
                     <td><h5>CT Marks</h5></td>
+                    <td><h5>Final mark <br>[ Part-A ]</h5></td>
+                    <td><h5>Final mark <br>[ Part-B ]</h5></td>
                     <td><h5>Total Marks</h5></td>
+                    <td><h5>Grade</h5></td>
+                    <td><h5>Grade<br> Point</h5></td>
                 </tr>
 
         <?php
@@ -1829,8 +1836,97 @@ showCourse();
             $CTmarks=ceil($ans/3);
             echo "<td>$CTmarks</td>";
 
-            $totalmarks=$CTmarks+$Amark;
+            //________________final marks____________________
+
+
+            $finalmark=0;
+
+
+            $s = "select * from $dtfinalmark  Where course='$course' && roll='$i' ORDER BY id DESC ";
+            $result = mysqli_query($con,$s);
+            $nummm = mysqli_num_rows($result);
+                    
+
+            
+            if($nummm!=0)
+            {
+                $var = mysqli_fetch_assoc($result);
+                $partAmark= (int)$var['partA'];
+                $partBmark= (int)$var['partB'];           
+                $finalmark+=$partAmark;
+                $finalmark+=$partBmark;
+
+            }
+
+
+            echo "<td>$partAmark</td>";
+            echo "<td>$partBmark</td>";
+
+
+            $totalmarks=$CTmarks+$Amark+$finalmark;
             echo "<td>$totalmarks</td>";
+
+
+
+            
+            if($totalmarks>=80)
+            {
+                $grade='A+';
+                $gradePoint='4.00';
+            }
+            else if($totalmarks>=75)
+            {
+                $grade='A';
+                $gradePoint='3.75';
+            }
+            else if($totalmarks>=70)
+            {
+                $grade='A-';
+                $gradePoint='3.50';
+            }
+            else if($totalmarks>=65)
+            {
+                $grade='B+';
+                $gradePoint='3.25';
+            }
+            else if($totalmarks>=60)
+            {
+                $grade='B';
+                $gradePoint='3.00';
+            }
+            else if($totalmarks>=55)
+            {
+                $grade='B-';
+                $gradePoint='2.75';
+            }
+            else if($totalmarks>=50)
+            {
+                $grade='C+';
+                $gradePoint='2.50';
+            }
+            else if($totalmarks>=45)
+            {
+                $grade='C';
+                $gradePoint='2.25';
+            }
+            else if($totalmarks>=40)
+            {
+                $grade='D';
+                $gradePoint='2.00';
+            }
+            else
+            {
+                $grade='F';
+                $gradePoint='0';
+            }
+
+
+
+            echo "<td>$grade</td>";
+            echo "<td>$gradePoint</td>";
+
+
+
 
 
             echo "</tr>";

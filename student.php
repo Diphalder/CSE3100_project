@@ -29,6 +29,9 @@ $dept=$v['dept'];
 $phone=$v['phone'];
 
 
+$dtfinalmark='finalmark';
+
+
 
 
 
@@ -583,20 +586,25 @@ showCourse();
 
 
     ?>
+    <div class='container'>
      <div class="d-flex justify-content-center">
     <div class="list" >
         <table class="table table-striped table-bordered"">
             <tr>
-                <td>Course Code</td>
-                <td>Percentage of Attendance</td>
-                <td>Attendance Marks</td>
-                <td>CT-1</td>
-                <td>CT-2</td>
-                <td>CT-3</td>
-                <td>CT-4</td>
-                <td>CT-5</td>
-                <td>CT Marks(best of three)</td>
-                <td>Total Marks</td>
+                <td><h5>Course<br> Code</h5></td>
+                <td><h5>Percentage<br> of<br> Attendance</h5></td>
+                <td><h5>Attendance<br> Marks</h5></td>
+                <td><h5>CT-1</h5></td>
+                <td><h5>CT-2</h5></td>
+                <td><h5>CT-3</h5></td>
+                <td><h5>CT-4</h5></td>
+                <td><h5>CT-5</h5></td>
+                <td><h5>CT Marks<br>(best of<br> three)</h5></td>
+                <td><h5>Final mark <br>[ Part-A ]</h5></td>
+                <td><h5>Final mark <br>[ Part-B ]</h5></td>
+                <td><h5>Total Marks</h5></td>
+                <td><h5>Grade</h5></td>
+                <td><h5>Grade<br> Point</h5></td>
             </tr>
 
     <?php
@@ -714,8 +722,99 @@ showCourse();
         $CTmarks=ceil($ans/3);
         echo "<td>$CTmarks</td>";
 
-        $totalmarks=$CTmarks+$Amark;
+
+
+        //_________final mark_________________
+
+
+        $finalmark=0;
+        $partAmark=0;
+        $partBmark=0;
+
+
+        $s = "select * from $dtfinalmark  Where course='$course[$i]' && roll='$roll' ORDER BY id DESC ";
+        $result = mysqli_query($con,$s);
+        $nummm = mysqli_num_rows($result);
+                
+
+        
+        if($nummm!=0)
+        {
+            $var = mysqli_fetch_assoc($result);
+            $partAmark= (int)$var['partA'];
+            $partBmark= (int)$var['partB'];           
+            $finalmark=$partAmark+$partBmark;
+
+        }
+
+
+        echo "<td>$partAmark</td>";
+        echo "<td>$partBmark</td>";
+
+
+
+
+        $totalmarks=$CTmarks+$Amark+$finalmark;
         echo "<td>$totalmarks</td>";
+
+
+
+        if($totalmarks>=80)
+        {
+            $grade='A+';
+            $gradePoint='4.00';
+        }
+        else if($totalmarks>=75)
+        {
+            $grade='A';
+            $gradePoint='3.75';
+        }
+        else if($totalmarks>=70)
+        {
+            $grade='A-';
+            $gradePoint='3.50';
+        }
+        else if($totalmarks>=65)
+        {
+            $grade='B+';
+            $gradePoint='3.25';
+        }
+        else if($totalmarks>=60)
+        {
+            $grade='B';
+            $gradePoint='3.00';
+        }
+        else if($totalmarks>=55)
+        {
+            $grade='B-';
+            $gradePoint='2.75';
+        }
+        else if($totalmarks>=50)
+        {
+            $grade='C+';
+            $gradePoint='2.50';
+        }
+        else if($totalmarks>=45)
+        {
+            $grade='C';
+            $gradePoint='2.25';
+        }
+        else if($totalmarks>=40)
+        {
+            $grade='D';
+            $gradePoint='2.00';
+        }
+        else
+        {
+            $grade='F';
+            $gradePoint='0';
+        }
+
+
+
+        echo "<td>$grade</td>";
+        echo "<td>$gradePoint</td>";
+
 
 
         echo "</tr>";
@@ -723,6 +822,7 @@ showCourse();
     }
 
     ?></table>
+    </div>
     </div>
     </div><?php
 
