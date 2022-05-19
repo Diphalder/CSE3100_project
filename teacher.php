@@ -403,11 +403,7 @@ if(isset($_POST["savefinalmarks"]))
 
         $xA=$_POST['A'.$i];
         $xB=$_POST['B'.$i];
-        if($xA==""&&$xB=="")
-        {
-            $xA='A';
-            $xB='A';
-        }
+
 
         $s = "select * from $datatable where  course='$course' && roll='$i' ORDER BY id DESC";
         $result = mysqli_query($con,$s);
