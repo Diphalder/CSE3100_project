@@ -219,11 +219,6 @@ if(isset($_POST["addroll"]))
                     </div>
 
 
-
-
-
-
-
                  
                 </div>
                 <div class="d-flex justify-content-end" style="margin: 10px;">
@@ -598,7 +593,6 @@ showCourse();
                 <td><h5>CT-2</h5></td>
                 <td><h5>CT-3</h5></td>
                 <td><h5>CT-4</h5></td>
-                <td><h5>CT-5</h5></td>
                 <td><h5>CT Marks<br>(best of<br> three)</h5></td>
                 <td><h5>Final mark <br>[ Part-A ]</h5></td>
                 <td><h5>Final mark <br>[ Part-B ]</h5></td>
@@ -683,7 +677,7 @@ showCourse();
             $marksList[$j]=0;
         }
         
-        for($j=1;$j<=5;$j++)
+        for($j=1;$j<=4;$j++)
         {
             $ans=0;              
                 $s = "select * from $datatableMarks where ctNo='$j' && course='$course[$i]' && roll='$roll' ORDER BY id DESC ";

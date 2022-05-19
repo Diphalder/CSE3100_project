@@ -1228,7 +1228,7 @@ showCourse();
              <label>Class-Test No.</label>
                 <select class="form-control" name="ctno">
                 <?php 
-                for($i=1;$i<=5;$i++)
+                for($i=1;$i<=4;$i++)
                 {
                     echo "<option value='$i' >  $i  </option>";
                 }
@@ -1525,7 +1525,7 @@ showCourse();
                 <tr>
                     <td>Roll</td>
                     <?php 
-                    for($j=1;$j<=5;$j++)
+                    for($j=1;$j<=4;$j++)
                     {
                         
                         echo "<td >CT-$j </td>"; 
@@ -1547,7 +1547,7 @@ showCourse();
                 $marksList[$j]=0;
             }
             
-            for($j=1;$j<=5;$j++)
+            for($j=1;$j<=4;$j++)
             {
                 $ans=0;              
                     $s = "select * from $datatable where ctNo='$j' && course='$course' && roll='$i' ORDER BY id DESC ";
