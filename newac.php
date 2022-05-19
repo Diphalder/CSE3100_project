@@ -151,9 +151,9 @@ if(isset($_POST["loginSubmit"]))
             {
                 ?>
             <div class="d-flex justify-content-center">
-                <div class="list ">
-                 <h3 class="Bad">Secret-code Wrong</h3>
-            </div>
+              
+                 <h3> <p class="p-3 mb-2 bg-danger text-white">Secret-code Wrong</p> </h3>
+
             </div>
              <?php
 
@@ -169,9 +169,7 @@ if(isset($_POST["loginSubmit"]))
 
             ?>
         <div class="d-flex justify-content-center  ">
-            <div class="list">
-                <h3 class="Bad">Email already exist</h3>
-            </div>
+            <h3> <p class="p-3 mb-2 bg-danger text-white">Email already exist</p> </h3>
         </div>
         <?php
 
@@ -187,9 +185,7 @@ if(isset($_POST["loginSubmit"]))
 
         ?>
         <div class="d-flex justify-content-center">
-            <div class="list ">
-                <h3 class="Bad">Password is diffrent</h3>
-            </div>
+        <h3> <p class="p-3 mb-2 bg-danger text-white">Password is diffrent</p> </h3>
         </div>
         <?php
     
