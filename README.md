@@ -1,1 +1,3 @@
-# RUET-Assitant# CSE3100_project
+# Project name : RUET-Assitant
+
+
