@@ -206,7 +206,7 @@ if(isset($_POST["loginSubmit"]))
     $name = $_POST['name'];
     $dept = $_POST['dept'];
     $phone = $_POST['phone'];
-    $roll =$_POST['roll'];
+
 
     if($pass==$repass)
     {  
@@ -217,6 +217,7 @@ if(isset($_POST["loginSubmit"]))
 
         if($type=='Student')
         {
+            $roll =$_POST['roll'];
                $s = "UPDATE $dtlogin SET roll='$roll'  where id=$id ";
                  mysqli_query($con,$s);
         }
