@@ -11,8 +11,9 @@ if($id==null){
 
 }
 
-
-
+$datatablelogin='login';
+$dtPhoto='photo';
+$dtfinalmark='finalmark';
 $dtlogin='login';
 $s = "select * from $dtlogin where id=$id ";
 $r = mysqli_query($con,$s);
@@ -28,16 +29,6 @@ if($type=='Student')
 $dept=$v['dept'];
 $phone=$v['phone'];
 
-
-$dtfinalmark='finalmark';
-
-
-
-
-
-
-$datatablelogin='login';
-$dtPhoto='photo';
 
 
 
@@ -578,7 +569,6 @@ showCourse();
 
     if($roll!='')
     {
-
         $datatableMarks='marks';
     $datatableAttendance ="attendance";
 
@@ -838,8 +828,13 @@ showCourse();
     }
 
     ?></table>
+     <div class="d-flex justify-content-end" >
+     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
+     </div>
     </div>
+    
     </div>
+    
     </div><?php
 
 
