@@ -54,7 +54,7 @@ table, th, td {
 <div class='container'>
      <div >
     <div>
-        <table >
+        <table width="100%">
             <tr>
                 <td><h5>Course<br> Code</h5></td>
                 <td><h5>Percentage<br> of<br> Attendance</h5></td>

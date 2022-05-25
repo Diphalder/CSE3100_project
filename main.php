@@ -112,7 +112,11 @@ if(isset($_POST["loginSubmit"]))
     }
     else
     {
-        echo "login failed";
+        ?>
+        <div class="d-flex justify-content-center  ">
+            <h3> <p class="p-3 mb-2 bg-danger text-white">login failed</p> </h3>
+        </div>
+        <?php
     }
 
 

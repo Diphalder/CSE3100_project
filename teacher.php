@@ -1589,7 +1589,17 @@ showCourse();
             
         }
 
+
+        
+        $_SESSION['rollStart']= $rollStart;
+        $_SESSION['rollEnd ']= $rollEnd ;
+        $_SESSION['course']= $course;
+        $_SESSION['pdf']='tcr_ctmark.php';
+
         ?></table>
+        <div class="d-flex justify-content-end" >
+     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
+     </div>
         </div> </div><?php
 
 
@@ -1931,9 +1941,23 @@ showCourse();
 
             echo "</tr>";
             
+
+
         }
 
+
+
+
+        $_SESSION['rollStart']= $rollStart;
+        $_SESSION['rollEnd ']= $rollEnd ;
+        $_SESSION['course']= $course;
+        $_SESSION['pdf']='tcr_Result.php';
+
+
         ?></table>
+             <div class="d-flex justify-content-end" >
+     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
+     </div>
           </div>
           </div>
         <?php
