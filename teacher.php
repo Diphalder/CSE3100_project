@@ -559,6 +559,9 @@ if(isset($_POST["savefinalmarks"]))
         <div class="list">
         <h3 style="text-align: center;">Attendance Sheet</h3>
         <h4 style="text-align: center;">Course code : <?php echo $course ?></h4>
+        <div class="d-flex justify-content-end" >
+            <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
+        </div>
     </div>
 
         <div class="outer-wrapper">
@@ -651,11 +654,21 @@ if(isset($_POST["savefinalmarks"]))
             }
             echo "<td>$percentage%</td>";
             echo "</tr>";
+
+
+            $_SESSION['rollStart']= $rollStart;
+            $_SESSION['rollEnd ']= $rollEnd ;
+            $_SESSION['course']= $course;
+            $_SESSION['pdf']='tcr_attendance.php';
             
         }
 
         ?></table>
+
+        
+          </div>
         </div>
+        
         </div>
         <?php
     }
@@ -1526,6 +1539,13 @@ showCourse();
         ?>
                 <div class="d-flex justify-content-center">
         <div class="list">
+        <div class="d-flex justify-content-end" >
+     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
+     </div>
+
+     <h3 style="text-align: center;">CT mark</h3>
+              <h4 style="text-align: center;">Course code : <?php echo $course ?></h4>
+
             <table class="table table-striped table-bordered"  style="text-align: center;" >
                 <tr>
                     <td>Roll</td>
@@ -1602,9 +1622,7 @@ showCourse();
         $_SESSION['pdf']='tcr_ctmark.php';
 
         ?></table>
-        <div class="d-flex justify-content-end" >
-     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
-     </div>
+       
         </div> </div><?php
 
 
@@ -1723,9 +1741,13 @@ showCourse();
         ?>
           <div class="d-flex justify-content-center">
               <div class="list">
+              <div class="d-flex justify-content-end" >
+     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
+     </div>
 
               <h3 style="text-align: center;">Result Sheet</h3>
               <h5 style="text-align: center;">Course code : <?php echo $course ?></h5>
+              
             <table class="table table-striped table-bordered " >
                 <tr>
                     <td><h5>Roll</h5></td>
@@ -1960,9 +1982,7 @@ showCourse();
 
 
         ?></table>
-             <div class="d-flex justify-content-end" >
-     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
-     </div>
+
           </div>
           </div>
         <?php

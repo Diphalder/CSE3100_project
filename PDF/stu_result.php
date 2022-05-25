@@ -54,6 +54,11 @@ table, th, td {
 <div class='container'>
      <div >
     <div>
+    <h3 style="text-align: center;">Result-sheet</h3>
+    <h5 >Name : <?php echo $name?></h5>
+    <h5 >Roll : <?php echo $roll?></h5>
+    <h5 >dept : <?php echo $dept?></h5>
+
         <table width="100%">
             <tr>
                 <td><h5>Course<br> Code</h5></td>
