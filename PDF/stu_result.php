@@ -2,15 +2,6 @@
 
 
 
-require 'connect_DB.php';
-require 'data.php';
-
-
-
-
-
-
-
     $datatableMarks='marks';
     $datatableAttendance ="attendance";
 

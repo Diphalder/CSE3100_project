@@ -827,6 +827,8 @@ showCourse();
         
     }
 
+    $_SESSION['pdf']='stu_result.php';
+
     ?></table>
      <div class="d-flex justify-content-end" >
      <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>

@@ -8,8 +8,9 @@ use Dompdf\Dompdf;
 $dompdf = new Dompdf();
 ob_start();
 
-
-require('PDF/stu_result.php');
+require 'connect_DB.php';
+require 'data.php';
+require('PDF/'.$_SESSION['pdf']);
 
 
 
