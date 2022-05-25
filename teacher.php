@@ -556,7 +556,10 @@ if(isset($_POST["savefinalmarks"]))
 
         ?>
         
-       
+        <div class="list">
+        <h3 style="text-align: center;">Attendance Sheet</h3>
+        <h4 style="text-align: center;">Course code : <?php echo $course ?></h4>
+    </div>
 
         <div class="outer-wrapper">
             <div class="table-wrapper" >
@@ -568,17 +571,19 @@ if(isset($_POST["savefinalmarks"]))
                     {
                         foreach($days as $k)
                         {
-                            echo "<td ><h5>$j $k[0]$k[1]$k[2]</h5></td>"; 
-                        }
-                        if($j%3==0)
-                        {
-                           echo"<td><h5>Roll</h5></td>";
+                            $s10 = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll>='$rollStart' && roll<='$rollEnd'";
+                            $result10 = mysqli_query($con,$s10);
+                            $num10 = mysqli_num_rows($result10);
 
+                            if( $num10 != 0)
+                            {echo "<td ><h5>$j $k[0]$k[1]$k[2]</h5></td>"; }
+                            
                         }
+
 
                     } 
                     ?>
-                    <td><h5>Total class</h5></td>
+                
                     <td><h5>Present</h5></td>
                     <td><h5>Percentage</h5></td>
                 </tr>
@@ -596,24 +601,26 @@ if(isset($_POST["savefinalmarks"]))
             {
                 $zz=0;
                 foreach($days as $k)
-                {     
-                    $zz++;             
+                { 
+                    $s10 = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll>='$rollStart' && roll<='$rollEnd'";
+                    $result10 = mysqli_query($con,$s10);
+                    $num10 = mysqli_num_rows($result10);
+                    
+                    if($num10 != 0)
+                    {
+                                    
                     $s = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll='$i'  ORDER BY id DESC";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     $ans=0;
 
+                    $total++;
                     if($num==0)
                     {
                         echo "<td></td>";
-                        if($j%3==0&&$zz==5)
-                        {
-                            echo "<td><h5>$i</h5></td>";
-
-                        }
                         continue;
                     }
-                    $total++;
+                  
                     
                     $var = mysqli_fetch_assoc($result);
                     $ans=$var['attendance'];
@@ -625,16 +632,14 @@ if(isset($_POST["savefinalmarks"]))
                         $prsnt++;
                     }
                     echo "<td title='$tcrName'>$ans</td>";
-                    if($j%3==0&&$zz==5)
-                        {
-                            echo "<td><h5>$i</h5></td>";
 
-                        }
+                    }
+                    
                     
                 } 
     
             }
-            echo "<td>$total</td>";
+            //echo "<td>$total</td>";
             echo "<td>$prsnt</td>";
             if($total==0)
             {
