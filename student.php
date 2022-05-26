@@ -596,12 +596,13 @@ showCourse();
     <div class='container'>
      <div class="d-flex justify-content-center">
     <div class="list" >
+    <div class="d-flex justify-content-end" >
+     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
+     </div>
 
     <div class="d-flex justify-content-center">
         <div class="list">
-        <div class="d-flex justify-content-end" >
-     <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
-     </div>
+        
 
      <h3 style="text-align: center;">Result-sheet</h3>
         <table class="table table-striped table-bordered"">

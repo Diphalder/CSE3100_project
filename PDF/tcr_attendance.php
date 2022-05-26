@@ -43,6 +43,7 @@ table, th, td {
 <div class="list">
         <h3 style="text-align: center;">Attendance Sheet</h3>
         <h4 style="text-align: center;">Course code : <?php echo $course ?></h4>
+        <h4 style="text-align: center;">Roll range : <?php echo $rollStart ?> to <?php echo $rollEnd ?></h4>
     </div>
 
         <div class="outer-wrapper">

@@ -556,15 +556,14 @@ if(isset($_POST["savefinalmarks"]))
 
         ?>
         
-        <div class="list">
-        <h3 style="text-align: center;">Attendance Sheet</h3>
-        <h4 style="text-align: center;">Course code : <?php echo $course ?></h4>
+        <div class="outer-wrapper">
         <div class="d-flex justify-content-end" >
             <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
         </div>
-    </div>
-
-        <div class="outer-wrapper">
+        <div class="minibox"><h3 style="text-align: center;">Attendance Sheet</h3>
+        <h4 style="text-align: center;">Course code : <?php echo $course ?></h4></div>
+        
+            
             <div class="table-wrapper" >
             <table class="table table-striped table-bordered" style="margin: 10px;">
                 <tr>
