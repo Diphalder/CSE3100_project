@@ -371,7 +371,7 @@ if(isset($_POST["addroll"]))
           <table class="table table-striped table-bordered">
               <tr>
                   <td>Course Code</td>
-                  <td>Teacher allocated</td>
+                  <td colspan="10000000">Teacher allocated</td>
               </tr>
           <?php
 
@@ -385,7 +385,7 @@ if(isset($_POST["addroll"]))
               $c= $var['course'];
               $s = "select * from $datatable where type='Teacher' && course='$c' ";
               $r = mysqli_query($con,$s);
-              ?><td><?php
+              ?><?php
               while( $v = mysqli_fetch_assoc($r))
               {
                   $newid=$v['personID'];
@@ -393,11 +393,11 @@ if(isset($_POST["addroll"]))
                   $k = mysqli_query($con,$q);
                   $d = mysqli_fetch_assoc($k);
                   $tcrName=$d['name'];
-                  echo $tcrName." , ";
+                  echo "<td>".$tcrName."</td>";
 
 
               }
-              ?></td><?php
+              ?><?php
 
 
            ?>
