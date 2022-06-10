@@ -180,7 +180,8 @@ table, th, td {
             $nummm = mysqli_num_rows($result);
                     
 
-            
+            $partAmark=0;
+            $partBmark=0;
             if($nummm!=0)
             {
                 $var = mysqli_fetch_assoc($result);

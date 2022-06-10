@@ -46,8 +46,8 @@ table, th, td {
         <h4 style="text-align: center;">Roll range : <?php echo $rollStart ?> to <?php echo $rollEnd ?></h4>
     </div>
 
-        <div class="outer-wrapper">
-            <div class="table-wrapper" >
+        <div class="outer-wrapper" width=100% >
+            <div class="table-wrapper"  width=100%>
             <table class="table table-striped table-bordered"  width=100% style="margin: 10px;">
                 <tr>
                     <td><h5>Roll</h5></td>
