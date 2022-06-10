@@ -370,8 +370,8 @@ if(isset($_POST["addroll"]))
           <div class="list" >
           <table class="table table-striped table-bordered">
               <tr>
-                  <td>Course Code</td>
-                  <td colspan="10000000">Teacher allocated</td>
+                  <td><h5>Course Code</h5></td>
+                  <td colspan="10000000"><h5>Teacher allocated</h5></td>
               </tr>
           <?php
 
