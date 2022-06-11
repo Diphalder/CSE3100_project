@@ -301,7 +301,8 @@ if(isset($_POST["addroll"]))
   if(isset($_POST["addCourse"]))
   {
       ?>
-      <div class="list" style="max-width: 300px;" >
+      <div class="d-flex justify-content-center">
+      <div class="list" >
      
       <div class="form-group" ">
       <form  method='post'>
@@ -323,7 +324,7 @@ if(isset($_POST["addroll"]))
       </form>
       </div>
       </div>
-      
+      </div>
       
       <?php
   }
