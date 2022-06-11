@@ -21,7 +21,16 @@ ob_get_clean();
 $dompdf->loadHtml($html);
 
 // (Optional) Setup the paper size and orientation
-$dompdf->setPaper('A4', 'portrait');
+
+if($_SESSION['pdf']=='tcr_attendance.php')
+{
+    $dompdf->setPaper('A4','landscape');
+}  
+else{
+
+    $dompdf->setPaper('A4', 'portrait');
+
+}
 
 // Render the HTML as PDF
 $dompdf->render();

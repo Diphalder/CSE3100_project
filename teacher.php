@@ -155,9 +155,7 @@ if($type!="Teacher"){
                 <div class="d-flex justify-content-end" style="margin: 10px;">
                     <a href="logout.php"><button class="btn btn-danger ">logout</button> </a>
                 </div>
-            
-
-
+    
 
             </div>
            
@@ -687,9 +685,10 @@ if(isset($_POST["savefinalmarks"]))
         if(isset($_POST["addCourse"]))
         {
             ?>
-            <div class="list" style="max-width: 300px;" >
-            <div class="container">
             <div class="d-flex justify-content-center">
+            <div class="list" >
+         
+            
             <div class="form-group" ">
             <form  method='post'>
             <label>Enter Course Code:</label>
@@ -709,7 +708,7 @@ if(isset($_POST["savefinalmarks"]))
                 <button type="submit" class="btn btn-success btn-block" name="saveCourse" >Save</button>
             </form>
             </div>
-            </div>
+        
             </div>
             </div>
             
@@ -755,7 +754,8 @@ if(isset($_POST["savefinalmarks"]))
             if($num!=0)
             {
                 ?>
-                 <div class="list" style="max-width: 300px;" >
+                 <div class="d-flex justify-content-center">
+                 <div class="list" >
                     <table class="table table-striped table-bordered"  >
                         <tr>
                             <td><h3>Course Code</h3></td>
@@ -789,6 +789,7 @@ if(isset($_POST["savefinalmarks"]))
 
 
                     </div>
+                 </div>
 
                  <?php
               

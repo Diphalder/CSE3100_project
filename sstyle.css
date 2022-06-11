@@ -16,7 +16,7 @@ body {
 
 .list {
     float: none;
-    margin: 10px auto;
+    margin: 5px;
     background: rgba(255, 255, 255, 0.803);
     padding: 10px;
     border-radius: 5px;
@@ -82,16 +82,16 @@ body {
 .table-wrapper {
     max-height: 500px;
     overflow-y: scroll;
-    margin: 20px;
+    margin: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .outer-wrapper {
     float: none;
-    margin: 10px auto;
+    margin: 5px;
     background: rgba(255, 255, 255, 0.803);
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
