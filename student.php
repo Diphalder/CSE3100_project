@@ -615,10 +615,10 @@ showCourse();
                 <td><h5>CT-2</h5></td>
                 <td><h5>CT-3</h5></td>
                 <td><h5>CT-4</h5></td>
-                <td><h5>CT Marks<br>(best of<br> three)</h5></td>
-                <td><h5>Final mark <br>[ Part-A ]</h5></td>
-                <td><h5>Final mark <br>[ Part-B ]</h5></td>
-                <td><h5>Total Marks</h5></td>
+                <td><h5>CT<br> Marks<br>(best<br> of<br> three)</h5></td>
+                <td><h5>Final<br> mark <br>[ Part-A ]</h5></td>
+                <td><h5>Final<br> mark <br>[ Part-B ]</h5></td>
+                <td><h5>Total<br> Marks</h5></td>
                 <td><h5>Grade</h5></td>
                 <td><h5>Grade<br> Point</h5></td>
             </tr>

@@ -18,7 +18,7 @@ if($type=='Student')
 }
 $dept=$v['dept'];
 $phone=$v['phone'];
-
+$datatablelogin='login';
 
 $dtfinalmark='finalmark';
 
@@ -233,7 +233,7 @@ if(isset($_POST["finalmark"]))
 
     <div class="d-flex justify-content-center">
     <div class="list"  >
-    <h3 style="text-align: center;"> view Result </h3>
+    <h3 style="text-align: center;"> Add final marks </h3>
     <form method='post'>
         <div>
         <label>Course Code</label>
@@ -758,18 +758,44 @@ if(isset($_POST["savefinalmarks"]))
                  <div class="list" >
                     <table class="table table-striped table-bordered"  >
                         <tr>
-                            <td><h3>Course Code</h3></td>
+                            <td><h5>Course Code</h5></td>
+                            <td colspan="10000000"><h5>Other Teacher<br>Name</h5></td>
                         </tr>
                 <?php
 
-                while( $var = mysqli_fetch_assoc($result))
-                {
-                    ?>
-                        <tr>
-                             <td><?php echo $var['course']?></td>  </tr>
-                    <?php
-    
-                }
+                        while( $var = mysqli_fetch_assoc($result))
+                        {
+                            ?>
+                            <tr>
+                                <td ><?php echo $var['course']?></td>  
+                            <?php
+
+                                global $datatablelogin;
+                            $c= $var['course'];
+                            $s = "select * from $datatable where type='Teacher' && course='$c' && personID<>$id ";
+                            $r = mysqli_query($con,$s);
+                            ?><?php
+                            while( $v = mysqli_fetch_assoc($r))
+                            {
+                                $newid=$v['personID'];
+                                $q = "select * from $datatablelogin WHERE id=$newid ";
+                                $k = mysqli_query($con,$q);
+                                $d = mysqli_fetch_assoc($k);
+                                $tcrName=$d['name'];
+                                echo "<td>".$tcrName."</td>";
+
+
+                            }
+                            ?><?php
+
+
+                        ?>
+                        </tr>
+                        
+                        <?php
+
+
+                        }
 
                 ?>
                     </table>
@@ -895,7 +921,15 @@ if(isset($_POST["deleteCourse"]))
 if(isset($_POST["courseDeleteDone"]))
 {
 
+
         $courses=$_POST['courses'];
+
+
+        if(empty($courses))
+        {
+            goto k;
+        }
+
 
         global $id,$con;
         $datatable ="course";
@@ -906,6 +940,8 @@ if(isset($_POST["courseDeleteDone"]))
             mysqli_query($con,$s);
     
         }
+    
+        k:
     
         ?>
     
@@ -1548,16 +1584,16 @@ showCourse();
 
             <table class="table table-striped table-bordered"  style="text-align: center;" >
                 <tr>
-                    <td>Roll</td>
+                    <td><h5>Roll</h5></td>
                     <?php 
                     for($j=1;$j<=4;$j++)
                     {
                         
-                        echo "<td >CT-$j </td>"; 
+                        echo "<td ><h5>CT-$j </h5></td>"; 
                         
                     } 
                     ?>
-                    <td>best of three avg.</td>
+                    <td><h5>best of three avg.</h5></td>
                 </tr>
 
         <?php
@@ -1751,12 +1787,12 @@ showCourse();
             <table class="table table-striped table-bordered " >
                 <tr>
                     <td><h5>Roll</h5></td>
-                    <td><h5>Percentage of <br>Attendance</h5></td>
+                    <td><h5>Percentage<br> of <br>Attendance</h5></td>
                     <td><h5>Attendance<br> Marks</h5></td>
-                    <td><h5>CT Marks</h5></td>
-                    <td><h5>Final mark <br>[ Part-A ]</h5></td>
-                    <td><h5>Final mark <br>[ Part-B ]</h5></td>
-                    <td><h5>Total Marks</h5></td>
+                    <td><h5>CT<br> Marks</h5></td>
+                    <td><h5>Final<br> mark <br>[ Part-A ]</h5></td>
+                    <td><h5>Final<br> mark <br>[ Part-B ]</h5></td>
+                    <td><h5>Total <br>Marks</h5></td>
                     <td><h5>Grade</h5></td>
                     <td><h5>Grade<br> Point</h5></td>
                 </tr>
