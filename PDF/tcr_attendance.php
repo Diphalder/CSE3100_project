@@ -11,6 +11,9 @@ $datatable ="attendance";
 $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
 global $id,$con;
 
+$ds = "SELECT * From courselist WHERE cid=$course";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
 
 
 
@@ -42,8 +45,9 @@ table, th, td {
 
 <div class="list">
         <h3 style="text-align: center;">Attendance Sheet</h3>
-        <h4 style="text-align: center;">Course code : <?php echo $course ?></h4>
-        <h4 style="text-align: center;">Roll range : <?php echo $rollStart ?> to <?php echo $rollEnd ?></h4>
+        <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
+              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
+        <h5 style="text-align: center;">Roll range : <?php echo $rollStart ?> to <?php echo $rollEnd ?></h5>
     </div>
 
         <div class="outer-wrapper" width=100% >
@@ -56,7 +60,7 @@ table, th, td {
                     {
                         foreach($days as $k)
                         {
-                            $s10 = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll>='$rollStart' && roll<='$rollEnd'";
+                            $s10 = "select * from $datatable where day='$k' && cycle='$j' && cid='$course' && roll>='$rollStart' && roll<='$rollEnd'";
                             $result10 = mysqli_query($con,$s10);
                             $num10 = mysqli_num_rows($result10);
 
@@ -87,14 +91,14 @@ table, th, td {
                 $zz=0;
                 foreach($days as $k)
                 { 
-                    $s10 = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll>='$rollStart' && roll<='$rollEnd'";
+                    $s10 = "select * from $datatable where day='$k' && cycle='$j' && cid='$course' && roll>='$rollStart' && roll<='$rollEnd'";
                     $result10 = mysqli_query($con,$s10);
                     $num10 = mysqli_num_rows($result10);
                     
                     if($num10 != 0)
                     {
                                     
-                    $s = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll='$i'  ORDER BY id DESC";
+                    $s = "select * from $datatable where day='$k' && cycle='$j' && cid='$course' && roll='$i'  ORDER BY id DESC";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     $ans=0;

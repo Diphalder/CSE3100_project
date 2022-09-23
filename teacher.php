@@ -46,9 +46,71 @@ if($type!="Teacher"){
 <title> login and registration </title>
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="sstyle.css">
+
+<script>
+        function myFunction() {
+  var x = document.getElementById("profileid");
+    x.style.display = "none";
+  
+}
+
+
+
+
+
+function selects(){  
+                var ele=document.getElementsByName('attendanceStatus[]');  
+                for(var i=0; i<ele.length; i++){  
+                    if(ele[i].type=='checkbox')  
+                        ele[i].checked=true;  
+                }
+                
+    document.getElementById("unselectall").style.display="block";
+    document.getElementById("selectall").style.display="none";
+            }  
+function deSelect(){  
+                var ele=document.getElementsByName('attendanceStatus[]');  
+                for(var i=0; i<ele.length; i++){  
+                    if(ele[i].type=='checkbox')  
+                        ele[i].checked=false;    
+                }  
+                document.getElementById("selectall").style.display="block";
+    document.getElementById("unselectall").style.display="none";
+            }  
+            
+            
+
+
+        
+    </script>
+
+<style>
+        input.largerCheckbox {
+            width: 35px;
+            height: 35px;
+        }
+    </style>
+
 </head>
 <body>
 
+
+
+
+
+<div class="topnav">
+
+  <form  method='post'>
+            <button type="submit" class="btn btn-primary " name="viewprofile" >Home</button>
+        </form>
+ 
+    <a class="split" href="logout.php"><button class="btn btn-danger ">logout</button> </a>
+    
+</div>
+
+
+
+<div id="profileid" >
 
 
 <div class="list">
@@ -126,18 +188,55 @@ if($type!="Teacher"){
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3" >
-                            <h6><p>Dept.  </p></h6>
+                        <div class="col-sm-3" >
+                        <h6><p>Dept. code  </p></h6>
 
-                            </div>
-                            <div class="col-sm-1" >
-                            <h6><p>:</p></h6>
-                            </div>
-                            <div class="col-sm-8" >
-                            <p>    <?php echo $dept ;?></p>
-
-                            </div>
                         </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT dept.deptcode,dept.deptname FROM dept,student WHERE dept.deptid=student.deptid and student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+                        $deptcode=$dv['deptcode'];
+                        $deptname=$dv['deptname'];
+
+                        echo $deptcode;
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Dept. Name  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT dept.deptcode,dept.deptname FROM dept,student WHERE dept.deptid=student.deptid and student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+                        $deptcode=$dv['deptcode'];
+                        $deptname=$dv['deptname'];
+
+                        echo $deptname;
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
                         
 
                     </div>
@@ -152,15 +251,21 @@ if($type!="Teacher"){
             </div>
             <div class="col-sm-2">
 
-                <div class="d-flex justify-content-end" style="margin: 10px;">
-                    <a href="logout.php"><button class="btn btn-danger ">logout</button> </a>
-                </div>
     
 
             </div>
            
 
     </div>
+
+
+</div>
+
+
+</div>
+
+
+
 
 
 </div>
@@ -219,11 +324,15 @@ if($type!="Teacher"){
 //______________final marks_____________
 if(isset($_POST["finalmark"]))
 {
+    echo '<script type="text/javascript">myFunction();</script>';
 
 
     global $id,$con;
-    $datatable ="course";
-    $s = "select * from $datatable where  personID = '$id' ";
+    
+
+    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+
+
     $result = mysqli_query($con,$s);
     $num = mysqli_num_rows($result);
     if($num!=0)
@@ -240,13 +349,15 @@ if(isset($_POST["finalmark"]))
             <select class="form-control" name="course" required>
                 <?php  
                  global $id,$con;
-                 $datatable ="course";
-                 $s = "select * from $datatable where  personID = '$id' ";
+                 $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+
                  $result = mysqli_query($con,$s);
                  $num = mysqli_num_rows($result);        
                  
                 while( $var = mysqli_fetch_assoc($result))
-                    { ?><option value="<?php echo $var['course']?>" ><?php echo $var['course']?></option>
+                    { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+
+
                         <?php
                     }
             
@@ -309,6 +420,7 @@ if(isset($_POST["finalmark"]))
 
 if(isset($_POST["getfinalmark"]))
 {
+    echo '<script type="text/javascript">myFunction();</script>';
 
     $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
@@ -337,7 +449,7 @@ if(isset($_POST["getfinalmark"]))
         for($i=$rollStart;$i<=$rollEnd;$i++)
         {
 
-            $s = "select * from $datatable where  course='$course' && roll='$i' ORDER BY id DESC";
+            $s = "select * from $datatable where  cid='$course' && roll='$i' ORDER BY id DESC";
             $result = mysqli_query($con,$s);
             $num = mysqli_num_rows($result);
 
@@ -387,6 +499,7 @@ if(isset($_POST["getfinalmark"]))
 }
 if(isset($_POST["savefinalmarks"]))
 {
+    echo '<script type="text/javascript">myFunction();</script>';
 
     global $name;
     global $con;
@@ -406,7 +519,7 @@ if(isset($_POST["savefinalmarks"]))
         $xB=$_POST['B'.$i];
 
 
-        $s = "select * from $datatable where  course='$course' && roll='$i' ORDER BY id DESC";
+        $s = "select * from $datatable where  cid='$course' && roll='$i' ORDER BY id DESC";
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
 
@@ -451,10 +564,12 @@ if(isset($_POST["savefinalmarks"]))
 //______________view attendance sheet_____________
     if(isset($_POST["viewAttendance"]))
     {
+        echo '<script type="text/javascript">myFunction();</script>';
 
         global $id,$con;
-        $datatable ="course";
-        $s = "select * from $datatable where  personID = '$id' ";
+      
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -472,14 +587,14 @@ if(isset($_POST["savefinalmarks"]))
                 <select name="course" class="form-control" required>
                     <?php  
                      global $id,$con;
-                     $datatable ="course";
-                     $s = "select * from $datatable where  personID = '$id' ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+
                      $result = mysqli_query($con,$s);
                      $num = mysqli_num_rows($result);
          
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['course']?>" ><?php echo $var['course']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
                             <?php
                         }
                 
@@ -538,6 +653,7 @@ if(isset($_POST["savefinalmarks"]))
 
     if(isset($_POST["showAttendance"]))
     {
+        echo '<script type="text/javascript">myFunction();</script>';
         $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
         $course = $_POST['course'];
@@ -548,7 +664,13 @@ if(isset($_POST["savefinalmarks"]))
 
         $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
 
+        
+            $ds = "SELECT * From courselist WHERE cid=$course";
+            $dr = mysqli_query($con,$ds);
+            $dv = mysqli_fetch_assoc($dr);
 
+
+        
 
         ?><?php
 
@@ -559,7 +681,8 @@ if(isset($_POST["savefinalmarks"]))
             <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
         </div>
         <div class="minibox"><h3 style="text-align: center;">Attendance Sheet</h3>
-        <h4 style="text-align: center;">Course code : <?php echo $course ?></h4></div>
+        <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
+              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
         
             
             <div class="table-wrapper" >
@@ -571,7 +694,7 @@ if(isset($_POST["savefinalmarks"]))
                     {
                         foreach($days as $k)
                         {
-                            $s10 = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll>='$rollStart' && roll<='$rollEnd'";
+                            $s10 = "select * from $datatable where day='$k' && cycle='$j' && cid='$course' && roll>='$rollStart' && roll<='$rollEnd'";
                             $result10 = mysqli_query($con,$s10);
                             $num10 = mysqli_num_rows($result10);
 
@@ -602,14 +725,14 @@ if(isset($_POST["savefinalmarks"]))
                 $zz=0;
                 foreach($days as $k)
                 { 
-                    $s10 = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll>='$rollStart' && roll<='$rollEnd'";
+                    $s10 = "select * from $datatable where day='$k' && cycle='$j' && cid='$course' && roll>='$rollStart' && roll<='$rollEnd'";
                     $result10 = mysqli_query($con,$s10);
                     $num10 = mysqli_num_rows($result10);
                     
                     if($num10 != 0)
                     {
                                     
-                    $s = "select * from $datatable where day='$k' && cycle='$j' && course='$course' && roll='$i'  ORDER BY id DESC";
+                    $s = "select * from $datatable where day='$k' && cycle='$j' && cid='$course' && roll='$i'  ORDER BY id DESC";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     $ans=0;
@@ -675,7 +798,7 @@ if(isset($_POST["savefinalmarks"]))
     //____________view course_____________
 
         if(isset($_POST["viewCourse"]))
-        {
+        {   echo '<script type="text/javascript">myFunction();</script>';
             showCourse();
 
         }
@@ -684,70 +807,142 @@ if(isset($_POST["savefinalmarks"]))
         //________________add course______________
         if(isset($_POST["addCourse"]))
         {
-            ?>
-            <div class="d-flex justify-content-center">
-            <div class="list" >
-         
-            
-            <div class="form-group" ">
-            <form  method='post'>
-            <label>Enter Course Code:</label>
-                <?php 
+
+            echo '<script type="text/javascript">myFunction();</script>';
+
+
+                global $id,$con,$datatablelogin;
+                $datatable ="courselist";
+
+                $ds = "SELECT * FROM student WHERE student.id=$id";
+                $dr = mysqli_query($con,$ds);
+                $dv = mysqli_fetch_assoc($dr);
+                $deptid=$dv['deptid'];
+
+                $s = "select * from $datatable where  deptid=$deptid order by year,semester";
+                $result = mysqli_query($con,$s);
+                $num = mysqli_num_rows($result);
+
+
+                if($num!=0)
+                {
+                    ?>
+                        <div class="d-flex justify-content-center">
+                        <div class="list">
+                        <form method='post'>
+
+                            <table class="table table-striped table-bordered" ">
+                                <tr>
+                                    <td>Course code</td>
+                                    <td>Course Name</td>
+                                    <td>select for add</td>
+                                </tr>
+                        
+                        <?php
+                        while( $var = mysqli_fetch_assoc($result))
+                        {
+                            $cid= $var['cid'];
+                            $ccccc=$cid;
+                            $ds = "SELECT * From courselist WHERE cid=$ccccc";
+                            $dr = mysqli_query($con,$ds);
+                            $dv = mysqli_fetch_assoc($dr);
+                            ?>
                 
-                for($i=0;$i<10;$i++) 
-                {
-                    $ii=$i+1; ?>
-      
-                <div class="form-group">
-                    <label><?php echo "$ii : "; ?></label>
-                    <input type="text"  name="course<?php echo $i?>" class="form-control" value="">
-                    </div>
-                    <?php 
-                }?>
-      
-                <button type="submit" class="btn btn-success btn-block" name="saveCourse" >Save</button>
-            </form>
-            </div>
-        
-            </div>
-            </div>
-            
-            <?php
-        }
+                                <tr>
+                                    <td>
+                                        <?php echo $dv['ccode'];?>
+                                    </td>
+                                    <td>
+                                    <?php echo $dv['cname']; ?>
+                                    </td>
 
-        if(isset($_POST["saveCourse"]))
-        { 
-            global $id,$con;
+                                    <div class="checkbox "  ><td style="text-align: center;"><input type="checkbox" class="largerCheckbox"  value="<?php echo $cid?>" name="courses[]"></td></div>
+                                </tr>
+                                
+                            <?php
+                
+                        }
+                
+                        ?>
+                        </table>
+                        <button type="submit" class="btn btn-success btn-block" name="courseAddDone" >Add</button>
 
-            $datatable ="course";
-           
-
-
-
-            for($i=0;$i<10;$i++)
-            {
-                $x="course".$i;
-                $newCourse=$_POST[$x];
-                if($newCourse!="")
-                {
-                    $s = "INSERT INTO $datatable VALUES('','$id','$newCourse','$type')";
-                    mysqli_query($con,$s);
+                
+                        </form>
+                        </div>
+                        </div>
+                        
+                        <?php
 
                 }
+                else
+                {
+                    ?>
+                    <div class="d-flex justify-content-center">
+                        <div class="list">
+                            <h3>No Course are available</h3>
+                        </div>
+                    </div>
+                    <?php
+                }
 
-            }
-           
-            showCourse();
+
+
 
         }
+
+
+        if(isset($_POST["courseAddDone"]))
+
+        {
+    echo '<script type="text/javascript">myFunction();</script>';
+
+        $courses=$_POST['courses'];
+
+
+        if(empty($courses))
+        {
+            goto kk;
+        }
+
+
+        global $id,$con;
+        $datatable ="course";
+     
+        foreach ($courses as $c)
+        {
+            $s = "INSERT INTO $datatable VALUES('','$id','$c','$type')";
+            mysqli_query($con,$s);
+    
+        }
+    
+        kk:
+    
+        ?>
+    
+        <div class="d-flex justify-content-center">
+            <div class="list">
+                <h3>Add successfully</h3>
+            </div>
+        </div>
+          
+          
+          <?php
+
+showCourse();
+
+
+}
+
+
 
 
 
     function showCourse()
-        {
+        {   echo '<script type="text/javascript">myFunction();</script>';
             global $id,$con;
             $datatable ="course";
-            $s = "select * from $datatable where  personID = '$id' ";
+            $s = "select distinct(cid) from $datatable where  personID = $id";
             $result = mysqli_query($con,$s);
             $num = mysqli_num_rows($result);
 
@@ -759,20 +954,28 @@ if(isset($_POST["savefinalmarks"]))
                     <table class="table table-striped table-bordered"  >
                         <tr>
                             <td><h5>Course Code</h5></td>
+                            <td><h5>Course Name</h5></td>
                             <td colspan="10000000"><h5>Other Teacher<br>Name</h5></td>
                         </tr>
                 <?php
 
                         while( $var = mysqli_fetch_assoc($result))
                         {
+
+                            $ccccc=$var['cid'];
+                            $ds = "SELECT * From courselist WHERE cid=$ccccc";
+                            $dr = mysqli_query($con,$ds);
+                            $dv = mysqli_fetch_assoc($dr);
+
                             ?>
                             <tr>
-                                <td ><?php echo $var['course']?></td>  
+                                <td ><?php echo $dv['ccode']?></td> 
+                                <td ><?php echo $dv['cname']?></td>  
                             <?php
 
                                 global $datatablelogin;
-                            $c= $var['course'];
-                            $s = "select * from $datatable where type='Teacher' && course='$c' && personID<>$id ";
+                            $c= $var['cid'];
+                            $s = "select * from $datatable where type='Teacher' && cid='$c' && personID<>$id ";
                             $r = mysqli_query($con,$s);
                             ?><?php
                             while( $v = mysqli_fetch_assoc($r))
@@ -854,12 +1057,11 @@ if(isset($_POST["savefinalmarks"]))
         //__________delete course_____________
 
 if(isset($_POST["deleteCourse"]))
-{
+{   echo '<script type="text/javascript">myFunction();</script>';
 
 
-    global $id,$con,$datatablelogin;
-    $datatable ="course";
-    $s = "select * from $datatable where  personID = '$id' ";
+    global $id,$con;
+    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
     $result = mysqli_query($con,$s);
     $num = mysqli_num_rows($result);
 
@@ -873,19 +1075,21 @@ if(isset($_POST["deleteCourse"]))
 
                 <table class="table table-striped table-bordered" ">
                     <tr>
-                        <td>Course</td>
-                        <td>select for Delete</td>
+                        <td>Course Code </td>
+                        <td>Course Name </td>
+                        <td>Select for Delete</td>
                     </tr>
             
             <?php
             while( $var = mysqli_fetch_assoc($result))
             {
-                $c= $var['course'];
+                $cid= $var['cid'];
                 ?>
     
                     <tr>
-                        <td><?php echo $c?></td>
-                        <div class="checkbox" ><td style="text-align: center;"><input type="checkbox"  value="<?php echo $c?>" name="courses[]"></td></div>
+                        <td><?php echo $var['ccode']?></td>
+                        <td><?php echo $var['cname']?></td>
+                        <div class="checkbox"  ><td style="text-align: center;"><input type="checkbox" class="largerCheckbox"  value="<?php echo $cid?>" name="courses[]"></td></div>
                     </tr>
                        
                 <?php
@@ -920,7 +1124,7 @@ if(isset($_POST["deleteCourse"]))
 
 if(isset($_POST["courseDeleteDone"]))
 {
-
+    echo '<script type="text/javascript">myFunction();</script>';
 
         $courses=$_POST['courses'];
 
@@ -936,7 +1140,7 @@ if(isset($_POST["courseDeleteDone"]))
      
         foreach ($courses as $c)
         {
-            $s = "DELETE FROM $datatable where  personID = '$id' && course='$c' ";
+            $s = "DELETE FROM $datatable where  personID = '$id' && cid='$c' ";
             mysqli_query($con,$s);
     
         }
@@ -970,11 +1174,10 @@ showCourse();
         //_____________input attendance___________________
 
     if(isset($_POST["attendance"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
 
         global $id,$con;
-        $datatable ="course";
-        $s = "select * from $datatable where  personID = '$id' ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -1014,7 +1217,7 @@ showCourse();
 
 
     function showAttendanceform()
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
         ?>
          <div class="d-flex justify-content-center">
         <div class="list"  >
@@ -1025,12 +1228,11 @@ showCourse();
                 <select class="form-control" name="course"  required>
                     <?php  
                      global $id,$con;
-                     $datatable ="course";
-                     $s = "select * from $datatable where  personID = '$id' ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
                      $result = mysqli_query($con,$s);
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['course']?>" ><?php echo $var['course']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
                             <?php
                         }
                 
@@ -1060,7 +1262,7 @@ showCourse();
             </div>
 
             <div>
-            <label>Course Code</label>
+            <label>Day</label>
                 <select name="day" class="form-control">
                     <option value="Saturday" >Saturday</option>
                     <option value="Sunday" >Sunday</option>
@@ -1089,7 +1291,7 @@ showCourse();
 
 
     if(isset($_POST["takeAttendance"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
         $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
         $cycle = $_POST['cycle'];
@@ -1101,6 +1303,9 @@ showCourse();
         ?>
         <div class="d-flex justify-content-center">
         <div class="list">
+        
+
+
         <form method='post'>
                 <input type="hidden" name="rollStart" value="<?php echo $rollStart?>">
                 <input type="hidden" name="rollEnd" value="<?php echo $rollEnd?>">
@@ -1110,11 +1315,24 @@ showCourse();
 
         
                 
-          
-            <table class="table table-striped table-bordered" ">
-                <tr>
-                    <td>Roll</td>
-                    <td>Attendance Status</td>
+                
+                
+            <table class="table table-striped table-bordered"  >
+            
+            <tr >
+            
+            <td ></td> 
+                    <td>
+                    <input class="btn btn-success btn-block" id='selectall'  onclick='selects()'  type="button"  value="Select All"/>  
+                   
+                    <input   class="btn btn-success  btn-block  unselectall "   id='unselectall' onclick='deSelect()' type="button"  value="UnSelect All"/>  
+                    </td>
+                 
+                    
+                </tr>
+            <tr>
+                    <td ><h5>     Roll      </h5></td>
+                    <td><h5>Attendance Status</h5></td>
                 </tr>
         
         <?php
@@ -1125,7 +1343,7 @@ showCourse();
             $click="";
 
 
-            $s = "select * from $datatable where day='$day' && cycle='$cycle' && course='$course' && roll='$i'  ORDER BY id DESC";
+            $s = "select * from $datatable where day='$day' && cycle='$cycle' && cid='$course' && roll='$i'  ORDER BY id DESC";
             $result = mysqli_query($con,$s);
             $num = mysqli_num_rows($result);
             $ans=0;
@@ -1145,12 +1363,17 @@ showCourse();
 
 				<tr>
                     <td><?php echo $i?></td>
-                    <div class="checkbox" ><td style="text-align: center;"><input type="checkbox" <?php echo $click?>  value="<?php echo $i?>" name="attendanceStatus[]"></td></div>
+                    <td style="text-align: center;">
+                     <input  type="checkbox" class="largerCheckbox" <?php echo $click?>  value="<?php echo $i?>" name="attendanceStatus[]">
+         
+                </td>
+       
                 </tr>
                    
             <?php
 
         }
+        
 
         ?>
         </table>
@@ -1172,7 +1395,7 @@ showCourse();
     }
 
     if(isset($_POST["takeAttendanceDone"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
 
         $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
@@ -1199,7 +1422,7 @@ showCourse();
         for($i=$rollStart;$i<=$rollEnd;$i++)
         {
 
-            $s = "select * from $datatable where day='$day' && cycle='$cycle' && course='$course' && roll='$i'  ORDER BY id DESC";
+            $s = "select * from $datatable where day='$day' && cycle='$cycle' && cid='$course' && roll='$i'  ORDER BY id DESC";
             $result = mysqli_query($con,$s);
             $num = mysqli_num_rows($result);
 
@@ -1236,10 +1459,9 @@ showCourse();
 
     //_____ input ct marks_______________
     if(isset($_POST["ctmark"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
         global $id,$con;
-        $datatable ="course";
-        $s = "select * from $datatable where  personID = '$id' ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -1249,19 +1471,18 @@ showCourse();
             <div class="d-flex justify-content-center">
             <div class="list" >
         <form method='post'>
-        <h2> input CT marks  </h2>
+        <h2> Input CT Marks  </h2>
             <div>
             <label>Course Code</label>
                 <select class="form-control" name="course" required>
                     <?php  
                      global $id,$con;
-                     $datatable ="course";
-                     $s = "select * from $datatable where  personID = '$id' ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
                      $result = mysqli_query($con,$s);
                      $num = mysqli_num_rows($result);        
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['course']?>" ><?php echo $var['course']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
                             <?php
                         }
                 
@@ -1335,7 +1556,7 @@ showCourse();
     }
 
     if(isset($_POST["showCTmarkForm"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
 
         $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
@@ -1356,8 +1577,8 @@ showCourse();
         
             <table class="table table-striped table-bordered" style="max-width: 500px;">
                 <tr>
-                    <td>Roll</td>
-                    <td>Marks</td>
+                    <td><h5>Roll</h5></td>
+                    <td><h5>Marks</h5></td>
                 </tr>
         
         <?php
@@ -1365,7 +1586,7 @@ showCourse();
         for($i=$rollStart;$i<=$rollEnd;$i++)
         {
 
-            $s = "select * from $datatable where ctNo='$ctno' && course='$course' && roll='$i' ORDER BY id DESC";
+            $s = "select * from $datatable where ctNo='$ctno' && cid='$course' && roll='$i' ORDER BY id DESC";
             $result = mysqli_query($con,$s);
             $num = mysqli_num_rows($result);
 
@@ -1408,7 +1629,7 @@ showCourse();
 
 
     if(isset($_POST["takeCTmarksDone"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
         global $name;
         global $con;
 
@@ -1430,7 +1651,7 @@ showCourse();
                 $x='A';
             }
 
-            $s = "select * from $datatable where ctNo='$ctno' && course='$course' && roll='$i' ORDER BY id DESC";
+            $s = "select * from $datatable where ctNo='$ctno' && cid='$course' && roll='$i' ORDER BY id DESC";
             $result = mysqli_query($con,$s);
             $num = mysqli_num_rows($result);
 
@@ -1472,10 +1693,9 @@ showCourse();
 
     if(isset($_POST["viewCTmarks"]))
     {
-        
+        echo '<script type="text/javascript">myFunction();</script>';
         global $id,$con;
-        $datatable ="course";
-        $s = "select * from $datatable where  personID = '$id' ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -1484,15 +1704,16 @@ showCourse();
             ?>
             <div class="d-flex justify-content-center">
             <div class="list" >
-            <h2> view CT marks sheet  </h2>
+            <h2> View CT marks sheet  </h2>
             <form method='post'>
                 <div>
                 <label>Course Code</label>
                     <select class="form-control" name="course" required>
                         <?php  
                          global $id,$con;
-                         $datatable ="course";
-                         $s = "select * from $datatable where  personID = '$id' ";
+                
+                         $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+
                          $result = mysqli_query($con,$s);
                          $num = mysqli_num_rows($result);
     
@@ -1504,7 +1725,7 @@ showCourse();
              
                          
                         while( $var = mysqli_fetch_assoc($result))
-                            { ?><option value="<?php echo $var['course']?>" ><?php echo $var['course']?></option>
+                            { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
                                 <?php
                             }
                     
@@ -1562,14 +1783,15 @@ showCourse();
     }
 
     if(isset($_POST["showCTmarks"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
 
         $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
         $course = $_POST['course'];
 
-
-
+        $ds = "SELECT * From courselist WHERE cid=$course";
+         $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
 
         $datatable='marks';
         ?>
@@ -1578,9 +1800,10 @@ showCourse();
         <div class="d-flex justify-content-end" >
      <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
      </div>
-
+     
      <h3 style="text-align: center;">CT mark</h3>
-              <h4 style="text-align: center;">Course code : <?php echo $course ?></h4>
+     <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
+              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
 
             <table class="table table-striped table-bordered"  style="text-align: center;" >
                 <tr>
@@ -1611,7 +1834,7 @@ showCourse();
             for($j=1;$j<=4;$j++)
             {
                 $ans=0;              
-                    $s = "select * from $datatable where ctNo='$j' && course='$course' && roll='$i' ORDER BY id DESC ";
+                    $s = "select * from $datatable where ctNo='$j' && cid='$course' && roll='$i' ORDER BY id DESC ";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     
@@ -1672,11 +1895,11 @@ showCourse();
 
     //__________view all result___________
     if(isset($_POST["viewResult"]))
-    {
+    {   echo '<script type="text/javascript">myFunction();</script>';
 
         global $id,$con;
-        $datatable ="course";
-        $s = "select * from $datatable where  personID = '$id' ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -1693,13 +1916,14 @@ showCourse();
                 <select class="form-control" name="course" required>
                     <?php  
                      global $id,$con;
-                     $datatable ="course";
-                     $s = "select * from $datatable where  personID = '$id' ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+
                      $result = mysqli_query($con,$s);
                      $num = mysqli_num_rows($result);        
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['course']?>" ><?php echo $var['course']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+
                             <?php
                         }
                 
@@ -1759,7 +1983,7 @@ showCourse();
 
     if(isset($_POST["showResultSheet"]))
     {
-
+        echo '<script type="text/javascript">myFunction();</script>';
         $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
         $course = $_POST['course'];
@@ -1769,7 +1993,9 @@ showCourse();
 
         $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
 
-        
+        $ds = "SELECT * From courselist WHERE cid=$course";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
 
 
 
@@ -1782,7 +2008,8 @@ showCourse();
      </div>
 
               <h3 style="text-align: center;">Result Sheet</h3>
-              <h5 style="text-align: center;">Course code : <?php echo $course ?></h5>
+              <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
+              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
               
             <table class="table table-striped table-bordered " >
                 <tr>
@@ -1810,7 +2037,7 @@ showCourse();
             {
                 foreach($days as $k)
                 {                  
-                    $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && course='$course' && roll='$i'  ORDER BY id DESC";
+                    $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && cid='$course' && roll='$i'  ORDER BY id DESC";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     $ans=0;
@@ -1876,7 +2103,7 @@ showCourse();
             for($j=1;$j<=5;$j++)
             {
                 $ans=0;              
-                    $s = "select * from $datatableMarks where ctNo='$j' && course='$course' && roll='$i' ORDER BY id DESC ";
+                    $s = "select * from $datatableMarks where ctNo='$j' && cid='$course' && roll='$i' ORDER BY id DESC ";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     
@@ -1915,7 +2142,7 @@ showCourse();
             $finalmark=0;
 
 
-            $s = "select * from $dtfinalmark  Where course='$course' && roll='$i' ORDER BY id DESC ";
+            $s = "select * from $dtfinalmark  Where cid='$course' && roll='$i' ORDER BY id DESC ";
             $result = mysqli_query($con,$s);
             $nummm = mysqli_num_rows($result);
                     

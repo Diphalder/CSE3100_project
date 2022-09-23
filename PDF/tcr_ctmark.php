@@ -7,6 +7,9 @@ $course=$_SESSION['course'] ;
 
 
 $datatable='marks';
+$ds = "SELECT * From courselist WHERE cid=$course";
+$dr = mysqli_query($con,$ds);
+$dv = mysqli_fetch_assoc($dr);
 
 
 
@@ -37,7 +40,8 @@ table, th, td {
 
 
               <h3 style="text-align: center;">CT marks</h3>
-              <h5 style="text-align: center;">Course code : <?php echo $course ?></h5>
+              <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
+              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
               <table width=100% >
                 <tr>
                     <td>Roll</td>
@@ -67,7 +71,7 @@ table, th, td {
             for($j=1;$j<=4;$j++)
             {
                 $ans=0;              
-                    $s = "select * from $datatable where ctNo='$j' && course='$course' && roll='$i' ORDER BY id DESC ";
+                    $s = "select * from $datatable where ctNo='$j' && cid='$course' && roll='$i' ORDER BY id DESC ";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     

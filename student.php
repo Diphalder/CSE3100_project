@@ -29,7 +29,7 @@ if($type=='Student')
 $dept=$v['dept'];
 $phone=$v['phone'];
 
-
+$profileCall=1;
 
 
 if($type!="Student"){
@@ -93,146 +93,518 @@ if(isset($_POST["addroll"]))
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+        .largerCheckbox {
+            width: 35px;
+            height: 35px;
+        }
+    </style>
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <title>Student Home Page</title>
 <link rel="stylesheet" type="text/css" href="sstyle.css">
+
+
+<script>
+        function myFunction() {
+  var x = document.getElementById("profileid");
+    x.style.display = "none";
+  
+}
+        
+    </script>
 </head>
 <body>
 
+ 
 
 
+<div class="topnav">
+
+  <form  method='post'>
+            <button type="submit" class="btn btn-primary " name="viewprofile" >Home</button>
+        </form>
+ 
+    <a class="split" href="logout.php"><button class="btn btn-danger ">logout</button> </a>
+    
+</div>
+
+
+
+<div id="profileid" >
 
 <div class="list">
 
  
 
-    <div class="row">
-            <div class="col-sm-3">
-                <div class="minibox" >
-                    <div class="d-flex justify-content-center">
-                        <p><h4><?php echo $name ?></h4></p>
-                    </div>
+<div class="row">
+        <div class="col-sm-3">
+            <div class="minibox" >
+                <div class="d-flex justify-content-center">
+                    <p><h4><?php echo $name ?></h4></p>
                 </div>
-
-                    <?php 
-                    $sql = "SELECT * FROM $dtPhoto WHERE personID=$id ORDER BY id DESC";
-                    $res = mysqli_query($con,  $sql);
-
-                    if (mysqli_num_rows($res) != 0) {
-          	            $image = mysqli_fetch_assoc($res) 
-                            ?>
-             
-                            <div class="d-flex justify-content-center" >
-             	                <img class="profilePic" alt="Image not found"   src="uploads/<?=$image['image_url']?>"  >
-                            </div>
-                        <?php 
-                    }
-                    else
-                    {
-                        ?>
-                        <div class="d-flex justify-content-center" >
-                            <img class="profilePic"alt="Image not found"  src="uploads/blank.webp"  >
-                        </div>
-                   <?php 
-
-                    }
-                        
-                    ?>
-              
-        
-
             </div>
-            <div class="col-sm-7">
-                <div class="minibox">
-                    <div class="container" >
-                    <h3><p>Information :  </p></h3>
 
+                <?php 
+                $sql = "SELECT * FROM $dtPhoto WHERE personID=$id ORDER BY id DESC";
+                $res = mysqli_query($con,  $sql);
+
+                if (mysqli_num_rows($res) != 0) {
+                      $image = mysqli_fetch_assoc($res) 
+                        ?>
+         
+                        <div class="d-flex justify-content-center" >
+                             <img class="profilePic" alt="Image not found"   src="uploads/<?=$image['image_url']?>"  >
+                        </div>
+                    <?php 
+                }
+                else
+                {
+                    ?>
+                    <div class="d-flex justify-content-center" >
+                        <img class="profilePic"alt="Image not found"  src="uploads/blank.webp"  >
+                    </div>
+               <?php 
+
+                }
                     
-                        <div class="row" >
-                            <div class="col-sm-3" >
-                            <h6><p>Email  </p></h6>
+                ?>
+          
+    
 
-                            </div>
-                            <div class="col-sm-1" >
-                            <h6><p>:</p></h6>
-                            </div>
-                            <div class="col-sm-8" >
-                            <p>    <?php echo $email ;?></p>
+        </div>
+        <div class="col-sm-7">
+            <div class="minibox">
+                <div class="container" >
+                <h3><p>Information :  </p></h3>
 
-                            </div>
+                
+                    <div class="row" >
+                        <div class="col-sm-3" >
+                        <h6><p>Email  </p></h6>
+
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3" >
-
-                            <h6><p>Phone No.  </p></h6>
-
-                            </div>
-                            <div class="col-sm-1" >
-                            <h6><p>:</p></h6>
-                            </div>
-                            <div class="col-sm-8" >
-
-                            <p>    <?php echo $phone; ?></p>
-
-                            </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3" >
-                            <h6><p>Dept.  </p></h6>
+                        <div class="col-sm-8" >
+                        <p>    <?php echo $email ;?></p>
 
-                            </div>
-                            <div class="col-sm-1" >
-                            <h6><p>:</p></h6>
-                            </div>
-                            <div class="col-sm-8" >
-                            <p>    <?php echo $dept ;?></p>
-
-                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3" >
-                            <h6><p> Roll   </p></h6>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3" >
 
-                            </div>
-                            <div class="col-sm-1" >
-                            <h6><p>:</p></h6>
-                            </div>
-                            <div class="col-sm-8" >
-                            <p>    <?php echo $roll;   ?></p>
+                        <h6><p>Phone No.  </p></h6>
 
-                            </div>
                         </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
 
-                     
+                        <p>    <?php echo $phone; ?></p>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Dept. code  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
                         
+                        $ds = "SELECT dept.deptcode,dept.deptname FROM dept,student WHERE dept.deptid=student.deptid and student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+                        $deptcode=$dv['deptcode'];
+                        $deptname=$dv['deptname'];
 
+                        echo $deptcode;
 
+                        
+                        ?></p>
+
+                        </div>
                     </div>
 
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Dept. Name  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT dept.deptcode,dept.deptname FROM dept,student WHERE dept.deptid=student.deptid and student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+                        $deptcode=$dv['deptcode'];
+                        $deptname=$dv['deptname'];
+
+                        echo $deptname;
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Year </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT year FROM student WHERE student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+
+                        echo $dv['year'];
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Semester </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT sem From student WHERE student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+
+                        echo $dv['sem'];
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p> Roll   </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php echo $roll;   ?></p>
+
+                        </div>
+                    </div>
 
                  
+                    
+
+
                 </div>
-                <div class="d-flex justify-content-end" style="margin: 10px;">
-                     <a href="editProfile.php"><button class="btn btn-success ">Edit Profile</button> </a>    
-                </div>
-                
+
+
+             
+            </div>
+            <div class="d-flex justify-content-end" style="margin: 10px;">
+                 <a href="editProfile.php"><button class="btn btn-success ">Edit Profile</button> </a>    
             </div>
             
-            <div class="col-sm-2">
+        </div>
+        
+        <div class="col-sm-2">
 
-            <div class="d-flex justify-content-end" style="margin: 10px;">
-                    <a href="logout.php"><button class="btn btn-danger ">logout</button> </a>
-                </div>
-                
+ 
+            
 
-             </div>
+         </div>
 
-           
+       
 
-    </div>
+</div>
 
 
 </div>
+
+
+
+</div>
+
+
+
+
+<?php
+if(isset($_POST["viewprofile"]))
+{
+    echo '<script type="text/javascript">myFunction();</script>';
+
+    ?>
+
+    
+<div class="list">
+
+ 
+
+<div class="row">
+        <div class="col-sm-3">
+            <div class="minibox" >
+                <div class="d-flex justify-content-center">
+                    <p><h4><?php echo $name ?></h4></p>
+                </div>
+            </div>
+
+                <?php 
+                $sql = "SELECT * FROM $dtPhoto WHERE personID=$id ORDER BY id DESC";
+                $res = mysqli_query($con,  $sql);
+
+                if (mysqli_num_rows($res) != 0) {
+                      $image = mysqli_fetch_assoc($res) 
+                        ?>
+         
+                        <div class="d-flex justify-content-center" >
+                             <img class="profilePic" alt="Image not found"   src="uploads/<?=$image['image_url']?>"  >
+                        </div>
+                    <?php 
+                }
+                else
+                {
+                    ?>
+                    <div class="d-flex justify-content-center" >
+                        <img class="profilePic"alt="Image not found"  src="uploads/blank.webp"  >
+                    </div>
+               <?php 
+
+                }
+                    
+                ?>
+          
+    
+
+          </div>
+        <div class="col-sm-7">
+            <div class="minibox">
+                <div class="container" >
+                <h3><p>Information :  </p></h3>
+
+                
+                    <div class="row" >
+                        <div class="col-sm-3" >
+                        <h6><p>Email  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php echo $email ;?></p>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3" >
+
+                        <h6><p>Phone No.  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+
+                        <p>    <?php echo $phone; ?></p>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Dept. code  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT dept.deptcode,dept.deptname FROM dept,student WHERE dept.deptid=student.deptid and student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+                        $deptcode=$dv['deptcode'];
+                        $deptname=$dv['deptname'];
+
+                        echo $deptcode;
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Dept. Name  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT dept.deptcode,dept.deptname FROM dept,student WHERE dept.deptid=student.deptid and student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+                        $deptcode=$dv['deptcode'];
+                        $deptname=$dv['deptname'];
+
+                        echo $deptname;
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Year </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT year FROM student WHERE student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+
+                        echo $dv['year'];
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Semester </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT sem From student WHERE student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+
+                        echo $dv['sem'];
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p> Roll   </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php echo $roll;   ?></p>
+
+                        </div>
+                    </div>
+
+                 
+                    
+
+
+                </div>
+
+
+             
+            </div>
+            <div class="d-flex justify-content-end" style="margin: 10px;">
+                 <a href="editProfile.php"><button  class="btn btn-success ">Edit Profile</button> </a>    
+            </div>
+            
+        </div>
+        
+        <div class="col-sm-2">
+
+ 
+            
+
+         </div>
+
+       
+
+</div>
+
+
+</div>
+
+
+
+
+
+<?php
+}
+?>
+
+
+
   
 
 
@@ -240,15 +612,15 @@ if(isset($_POST["addroll"]))
 <div class="list" >
     <div class="d-flex justify-content-center">
 
-    <div class="btn-group">
-        <form  method='post'>
-            <button type="submit" class="btn btn-primary" name="viewCourse" >view Courses list</button>
+    <div   class="btn-group">
+        <form   method='post'>
+            <button type="submit"  class="btn btn-primary"   name="viewCourse" >view current Semester Courses</button>
         </form>
     </div>
 
-    <div class="btn-group">
+    <div  onclick="myFunction()" class="btn-group">
         <form  method='post'>
-            <button type="submit" class="btn btn-primary " name="viewResult" >view Result</button>
+            <button type="submit"  class="btn btn-primary"  name="viewResult" >view Result</button>
         </form>
     </div>
 
@@ -271,13 +643,164 @@ if(isset($_POST["addroll"]))
 
 
   //____________view course_____________
+ 
 
   if(isset($_POST["viewCourse"]))
   {
+    echo '<script type="text/javascript">myFunction();</script>';
+
+    ?>
+    
+ <?php
+
+
 
     if($roll!='')
     {
-        showCourse();
+        echo '<script type="text/javascript">myFunction();</script>';
+      global $id,$con,$datatablelogin;
+      $datatable ="course";
+      $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year=student.year and courselist.semester= student.sem and student.id =$id; ";
+      $result = mysqli_query($con,$s);
+      $num = mysqli_num_rows($result);
+
+      if($num!=0)
+      {
+          ?>
+          <div class="d-flex justify-content-center">
+
+          <div class="list" >
+
+          <div class="container" >
+                <h3><p>Course list of :  </p></h3>
+
+                
+                    
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Year </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT year FROM student WHERE student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+
+                        echo $dv['year'];
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                        <h6><p>Semester </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+                        <p>    <?php
+                        
+                        $ds = "SELECT sem From student WHERE student.id=$id";
+                        $dr = mysqli_query($con,$ds);
+                        $dv = mysqli_fetch_assoc($dr);
+
+                        echo $dv['sem'];
+
+                        
+                        ?></p>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+             
+
+       
+
+          <table class="table table-striped table-bordered">
+              <tr>
+                  <td><h5>Course Code</h5></td>
+                  <td><h5>Course Name</h5></td>
+                  <td colspan="10000000"><h5>Teacher allocated</h5></td>
+              </tr>
+          <?php
+
+          while( $var = mysqli_fetch_assoc($result))
+          {
+              ?>
+              <tr>
+                  <td ><?php echo $var['ccode']?></td> 
+                  <td ><?php echo $var['cname']?></td>   
+              <?php
+
+              $c= $var['cid'];
+              $s = "select * from $datatable where type='Teacher' && cid=$c ";
+              $r = mysqli_query($con,$s);
+              ?><?php
+              while( $v = mysqli_fetch_assoc($r))
+              {
+                  $newid=$v['personID'];
+                  $q = "select * from $datatablelogin WHERE id=$newid ";
+                  $k = mysqli_query($con,$q);
+                  $d = mysqli_fetch_assoc($k);
+                  $tcrName=$d['name'];
+                  echo "<td>".$tcrName."</td>";
+
+              }
+              ?><?php
+           ?>
+           </tr>
+           
+           <?php
+
+          }
+
+          ?>
+            </table>
+            
+
+          </div>
+          </div>
+
+          <?php
+        
+      }
+      else
+      {
+          ?>
+
+        <div class="d-flex justify-content-center">
+            
+        <div class='list'>
+            <div class="minibox">
+                <h3>No Course are available</h3>
+
+            </div>
+        </div>
+           
+        </div>
+  
+          <?php
+
+      }
+
     }
     else
     {
@@ -297,276 +820,13 @@ if(isset($_POST["addroll"]))
   }
 
 
-  //________________add course______________
-  if(isset($_POST["addCourse"]))
-  {
-      ?>
-      <div class="d-flex justify-content-center">
-      <div class="list" >
-     
-      <div class="form-group" ">
-      <form  method='post'>
-      <h3>Enter Course Code:</h3>
-          <?php 
-          
-          for($i=0;$i<10;$i++) 
-          {
-              $ii=$i+1; ?>
-
-          <div class="form-group">
-              <label><?php echo "$ii : "; ?></label>
-              <input type="text"  name="course<?php echo $i?>" class="form-control" value="">
-              </div>
-              <?php 
-          }?>
-
-          <button type="submit" class="btn btn-success btn-block" name="saveCourse" >Save</button>
-      </form>
-      </div>
-      </div>
-      </div>
-      
-      <?php
-  }
-
-  if(isset($_POST["saveCourse"]))
-  { 
-      global $id,$con;
-
-      $datatable ="course";
-    
-
-
-      for($i=0;$i<10;$i++)
-      {
-          $x="course".$i;
-          $newCourse=$_POST[$x];
-          if($newCourse!="")
-          {
-              $s = "INSERT INTO $datatable VALUES('','$id','$newCourse','$type')";
-              mysqli_query($con,$s);
-
-          }
-
-      }
-     
-      showCourse();
-
-  }
-
-
-
-  function showCourse()
-  {
-      global $id,$con,$datatablelogin;
-      $datatable ="course";
-      $s = "select * from $datatable where  personID = '$id' ";
-      $result = mysqli_query($con,$s);
-      $num = mysqli_num_rows($result);
-
-      if($num!=0)
-      {
-          ?>
-          <div class="d-flex justify-content-center">
-          <div class="list" >
-          <table class="table table-striped table-bordered">
-              <tr>
-                  <td><h5>Course Code</h5></td>
-                  <td colspan="10000000"><h5>Teacher allocated</h5></td>
-              </tr>
-          <?php
-
-          while( $var = mysqli_fetch_assoc($result))
-          {
-              ?>
-              <tr>
-                  <td ><?php echo $var['course']?></td>  
-              <?php
-
-              $c= $var['course'];
-              $s = "select * from $datatable where type='Teacher' && course='$c' ";
-              $r = mysqli_query($con,$s);
-              ?><?php
-              while( $v = mysqli_fetch_assoc($r))
-              {
-                  $newid=$v['personID'];
-                  $q = "select * from $datatablelogin WHERE id=$newid ";
-                  $k = mysqli_query($con,$q);
-                  $d = mysqli_fetch_assoc($k);
-                  $tcrName=$d['name'];
-                  echo "<td>".$tcrName."</td>";
-
-
-              }
-              ?><?php
-
-
-           ?>
-           </tr>
-           
-           <?php
-
-
-          }
-
-          ?>
-            </table>
-            
-                <div class="form-group"> 
-                    <form  method='post'>
-                        <button type="submit" class="btn btn-success btn-block " name="addCourse" >Add Course</button>
-                    </form>
-                </div>
-                <div class="form-group"> 
-                    <form  method='post'>
-                        <button type="submit" class="btn btn-danger btn-block " name="deleteCourse" >Delete Course</button>
-                    </form>
-                </div>
-           
-
-          </div>
-          </div>
-
-          <?php
-        
-      }
-      else
-      {
-          ?>
-
-        <div class="d-flex justify-content-center">
-            
-        <div class='list'>
-            <div class="minibox">
-                <h3>No Course are available</h3>
-
-            </div>
-            <div class="minibox">
-                <div class="form-group"> 
-                    <form  method='post'>
-                        <button type="submit" class="btn btn-success btn-block " name="addCourse" >Add Course</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-           
-        </div>
-  
-          <?php
-
-      }
-
-
-
-  }
-
-
-//__________delete course_____________
-
-if(isset($_POST["deleteCourse"]))
-{
-
-
-    global $id,$con,$datatablelogin;
-    $datatable ="course";
-    $s = "select * from $datatable where  personID = '$id' ";
-    $result = mysqli_query($con,$s);
-    $num = mysqli_num_rows($result);
-
-
-    if($num!=0)
-    {
-        ?>
-            <div class="d-flex justify-content-center">
-            <div class="list">
-            <form method='post'>
-
-                <table class="table table-striped table-bordered" ">
-                    <tr>
-                        <td>Course</td>
-                        <td>select for Delete</td>
-                    </tr>
-            
-            <?php
-            while( $var = mysqli_fetch_assoc($result))
-            {
-                $c= $var['course'];
-                ?>
-    
-                    <tr>
-                        <td><?php echo $c?></td>
-                        <div class="checkbox" ><td style="text-align: center;"><input type="checkbox"  value="<?php echo $c?>" name="courses[]"></td></div>
-                    </tr>
-                       
-                <?php
-    
-            }
-    
-            ?>
-            </table>
-            <button type="submit" class="btn btn-danger btn-block" name="courseDeleteDone" >Delete</button>
-
-    
-            </form>
-            </div>
-            </div>
-            
-            <?php
-
-    }
-    else
-    {
-        ?>
-        <div class="d-flex justify-content-center">
-            <div class="list">
-                <h3>No Course are available</h3>
-            </div>
-        </div>
-        <?php
-    }
-
-
-}
-
-if(isset($_POST["courseDeleteDone"]))
-{
-
-        $courses=$_POST['courses'];
-
-        global $id,$con;
-        $datatable ="course";
-     
-        foreach ($courses as $c)
-        {
-            $s = "DELETE FROM $datatable where  personID = '$id' && course='$c' ";
-            mysqli_query($con,$s);
-    
-        }
-    
-        ?>
-    
-        <div class="d-flex justify-content-center">
-            <div class="list">
-                <h3>Delete successfully</h3>
-            </div>
-        </div>
-          
-          
-          <?php
-
-showCourse();
-
-
-}
-
-
-
 
 
 
 //______________view result____________________
   if(isset($_POST["viewResult"]))
   {
+    echo '<script type="text/javascript">myFunction();</script>';
 
     if($roll!='')
     {
@@ -577,7 +837,7 @@ showCourse();
 
 
     $datatableCourse ="course";
-    $s = "select * from $datatableCourse where  personID = '$id' ";
+    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year=student.year and courselist.semester= student.sem and student.id =$id; ";
     $result = mysqli_query($con,$s);
     $number = mysqli_num_rows($result);
 
@@ -587,8 +847,14 @@ showCourse();
     $i=0;
     while( $var = mysqli_fetch_assoc($result))
     {
-        $course[$i]=$var['course'];
+        $cid[$i]=$var['cid'];
+        $ccccc=$cid[$i];
+        $ds = "SELECT * From courselist WHERE cid=$ccccc";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
+        $course[$i]=$dv['ccode'];
         $i++;
+
     }
 
 
@@ -636,7 +902,7 @@ showCourse();
         {
             foreach($days as $k)
             {                  
-                $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && course='$course[$i]' && roll='$roll'  ORDER BY id DESC";
+                $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && cid='$cid[$i]' && roll='$roll'  ORDER BY id DESC";
                 $result = mysqli_query($con,$s);
                 $num = mysqli_num_rows($result);
                 $ans=0;
@@ -702,7 +968,7 @@ showCourse();
         for($j=1;$j<=4;$j++)
         {
             $ans=0;              
-                $s = "select * from $datatableMarks where ctNo='$j' && course='$course[$i]' && roll='$roll' ORDER BY id DESC ";
+                $s = "select * from $datatableMarks where ctNo='$j' && cid='$cid[$i]' && roll='$roll' ORDER BY id DESC ";
                 $result = mysqli_query($con,$s);
                 $num = mysqli_num_rows($result);
                 
@@ -748,7 +1014,7 @@ showCourse();
         $partBmark=0;
 
 
-        $s = "select * from $dtfinalmark  Where course='$course[$i]' && roll='$roll' ORDER BY id DESC ";
+        $s = "select * from $dtfinalmark  Where cid='$cid[$i]' && roll='$roll' ORDER BY id DESC ";
         $result = mysqli_query($con,$s);
         $nummm = mysqli_num_rows($result);
                 

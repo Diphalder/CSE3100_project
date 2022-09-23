@@ -133,12 +133,55 @@ $phone=$v['phone'];
 					<label>Phone Number</label>
 					<input type="text" name="phone" class="form-control"  value="<?php echo $phone ?>">
 				</div>
+                
                 <div class="form-group">
 					<label>Department Name</label>
-					<input type="text" name="dept" class="form-control" value="<?php echo $dept ?>" >
-				</div>
+                    <select class="form-control" name="deptid" required>
+                    <?php  
+                     global $id,$con;
+                     $s = "select * from dept ";
+                     $result = mysqli_query($con,$s);
+                     $num = mysqli_num_rows($result); 
+                     
 
-				<button type="submit" class="btn btn-primary  btn-block" name="loginSubmit" > SAVE</button>
+                     
+                    while( $var = mysqli_fetch_assoc($result))
+                        { ?><option value="<?php echo $var['deptid']?>" ><?php echo $var['deptcode']?></option>
+                            <?php
+                        }
+                
+                        ?>
+                </select>
+				</div>
+                <?php
+
+                    if($type=='Student')
+                    {?>
+
+                <div class="form-group">
+                <label>Year</label>
+          <select class="form-control" name="year">
+                    <option value='1st' >  1st year </option>
+                    <option value='2nd' >  2nd year </option>
+                    <option value='3rd' >  3rd year </option>
+                    <option value='4th' >  4th year </option>
+                </select>
+           
+          </div>
+          <div class="form-group">
+          <label>Semester</label>
+
+
+          <select class="form-control" name="sem">
+          <option value='odd' >  Odd </option>
+          <option value='even' >  Even </option>
+      
+        </select>   
+    </div>     <?php
+                    }
+                    ?>
+
+                <button type="submit" class="btn btn-primary  btn-block" name="loginSubmit" > SAVE</button>
 
 			</form> 
 </div>
@@ -204,16 +247,23 @@ if(isset($_POST["loginSubmit"]))
     $pass = $_POST['password'];
     $repass = $_POST['repassword'];
     $name = $_POST['name'];
-    $dept = $_POST['dept'];
+    $deptid = $_POST['deptid'];
     $phone = $_POST['phone'];
+    $year = $_POST['year'];
+    $sem = $_POST['sem'];
 
+    $datatablestudent ="student";
 
     if($pass==$repass)
     {  
         
         
-        $s = "UPDATE $dtlogin SET name='$name',dept='$dept', phone='$phone', password='$pass'  where id=$id ";
+        $s = "UPDATE $dtlogin SET name='$name', phone='$phone', password='$pass'  where id=$id ";
         mysqli_query($con,$s);
+        $s = "UPDATE $datatablestudent SET deptid='$deptid', year='$year' , sem='$sem'  where id=$id ";
+        mysqli_query($con,$s);
+
+
 
         if($type=='Student')
         {

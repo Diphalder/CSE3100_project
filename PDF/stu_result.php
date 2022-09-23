@@ -7,19 +7,21 @@
 
     $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
 
-
-    $datatableCourse ="course";
-    $s = "select * from $datatableCourse where  personID = '$id' ";
+    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year=student.year and courselist.semester= student.sem and student.id =$id; ";
     $result = mysqli_query($con,$s);
     $number = mysqli_num_rows($result);
-
 
     $courses=array($number);
 
     $i=0;
     while( $var = mysqli_fetch_assoc($result))
     {
-        $course[$i]=$var['course'];
+        $cid[$i]=$var['cid'];
+        $ccccc=$cid[$i];
+        $ds = "SELECT * From courselist WHERE cid=$ccccc";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
+        $course[$i]=$dv['ccode'];
         $i++;
     }
 
@@ -61,17 +63,17 @@ table, th, td {
 
         <table width="100%">
             <tr>
-                <td><h5>Course<br> Code</h5></td>
+            <td><h5>Course<br> Code</h5></td>
                 <td><h5>Percentage<br> of<br> Attendance</h5></td>
                 <td><h5>Attendance<br> Marks</h5></td>
                 <td><h5>CT-1</h5></td>
                 <td><h5>CT-2</h5></td>
                 <td><h5>CT-3</h5></td>
                 <td><h5>CT-4</h5></td>
-                <td><h5>CT Marks<br>(best of<br> three)</h5></td>
-                <td><h5>Final mark <br>[ Part-A ]</h5></td>
-                <td><h5>Final mark <br>[ Part-B ]</h5></td>
-                <td><h5>Total Marks</h5></td>
+                <td><h5>CT<br> Marks<br>(best<br> of<br> three)</h5></td>
+                <td><h5>Final<br> mark <br>[ Part-A ]</h5></td>
+                <td><h5>Final<br> mark <br>[ Part-B ]</h5></td>
+                <td><h5>Total<br> Marks</h5></td>
                 <td><h5>Grade</h5></td>
                 <td><h5>Grade<br> Point</h5></td>
             </tr>
@@ -89,7 +91,7 @@ table, th, td {
         {
             foreach($days as $k)
             {                  
-                $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && course='$course[$i]' && roll='$roll'  ORDER BY id DESC";
+                $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && cid='$cid[$i]' && roll='$roll'  ORDER BY id DESC";
                 $result = mysqli_query($con,$s);
                 $num = mysqli_num_rows($result);
                 $ans=0;
@@ -155,7 +157,7 @@ table, th, td {
         for($j=1;$j<=4;$j++)
         {
             $ans=0;              
-                $s = "select * from $datatableMarks where ctNo='$j' && course='$course[$i]' && roll='$roll' ORDER BY id DESC ";
+                $s = "select * from $datatableMarks where ctNo='$j' && cid='$cid[$i]' && roll='$roll' ORDER BY id DESC ";
                 $result = mysqli_query($con,$s);
                 $num = mysqli_num_rows($result);
                 
@@ -201,7 +203,7 @@ table, th, td {
         $partBmark=0;
 
 
-        $s = "select * from $dtfinalmark  Where course='$course[$i]' && roll='$roll' ORDER BY id DESC ";
+        $s = "select * from $dtfinalmark  Where cid='$cid[$i]' && roll='$roll' ORDER BY id DESC ";
         $result = mysqli_query($con,$s);
         $nummm = mysqli_num_rows($result);
                 
@@ -290,13 +292,15 @@ table, th, td {
         
     }
 
+    $_SESSION['pdf']='stu_result.php';
+
     ?></table>
+
     </div>
     
     </div>
     
     </div>
-    
 
 
 

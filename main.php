@@ -25,6 +25,7 @@ require 'connect_DB.php';
                     <select name="type" class="form-control">
                         <option value="Teacher" >Teacher</option>
                         <option value="Student" >Student</option>
+                        <option value="Admin" >Admin</option>
                     </select>
         
                 </div>
@@ -106,6 +107,11 @@ if(isset($_POST["loginSubmit"]))
         if($type=="Student")
         {
             header('location:student.php');
+
+        }
+        if($type=="Admin")
+        {
+            header('location:admin.php');
 
         }
 

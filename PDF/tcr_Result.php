@@ -9,7 +9,9 @@ $datatableAttendance ="attendance";
 
 $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
 
-
+$ds = "SELECT * From courselist WHERE cid=$course";
+$dr = mysqli_query($con,$ds);
+$dv = mysqli_fetch_assoc($dr);
 
 
 
@@ -35,15 +37,9 @@ table, th, td {
     
 </head>
 <body>
-
-
-
-
-
- 
-
-              <h3 style="text-align: center;">Result Sheet</h3>
-              <h5 style="text-align: center;">Course code : <?php echo $course ?></h5>
+    <h3 style="text-align: center;">Result Sheet</h3>
+              <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
+              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
             <table width="100%" >
                 <tr>
                     <td><h5>Roll</h5></td>
@@ -70,7 +66,7 @@ table, th, td {
             {
                 foreach($days as $k)
                 {                  
-                    $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && course='$course' && roll='$i'  ORDER BY id DESC";
+                    $s = "select * from $datatableAttendance where day='$k' && cycle='$j' && cid='$course' && roll='$i'  ORDER BY id DESC";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     $ans=0;
@@ -136,7 +132,7 @@ table, th, td {
             for($j=1;$j<=5;$j++)
             {
                 $ans=0;              
-                    $s = "select * from $datatableMarks where ctNo='$j' && course='$course' && roll='$i' ORDER BY id DESC ";
+                    $s = "select * from $datatableMarks where ctNo='$j' && cid='$course' && roll='$i' ORDER BY id DESC ";
                     $result = mysqli_query($con,$s);
                     $num = mysqli_num_rows($result);
                     
@@ -175,7 +171,7 @@ table, th, td {
             $finalmark=0;
 
 
-            $s = "select * from $dtfinalmark  Where course='$course' && roll='$i' ORDER BY id DESC ";
+            $s = "select * from $dtfinalmark  Where cid='$course' && roll='$i' ORDER BY id DESC ";
             $result = mysqli_query($con,$s);
             $nummm = mysqli_num_rows($result);
                     
