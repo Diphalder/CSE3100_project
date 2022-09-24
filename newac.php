@@ -11,6 +11,27 @@ require 'connect_DB.php';
 <title>Registration </title>
 <link rel="stylesheet" type="text/css" href="sstyle.css">
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script type="text/javascript">
+
+function changeFunc(i) {
+  if(i=='Teacher')
+  {
+    var x = document.getElementById("tcrid");
+    x.style.display = "none";
+
+  }
+  else
+  {
+
+    var x = document.getElementById("tcrid");
+    x.style.display = "block";
+
+
+  }
+}
+
+</script>
+
 </head>
 <body>
 <div class="d-flex justify-content-end" >
@@ -25,9 +46,10 @@ require 'connect_DB.php';
 			<h2> Registration  </h2>
 			<form method='post'>
 				<div>
-                    <select name="type" class="form-control">
-                        <option value="Teacher" >Teacher</option>
-                        <option value="Student" >Student</option>
+                    <select id="selectBox" onchange="changeFunc(value);" name="type" class="form-control">
+                    <option  value="Student" >Student</option>    
+                    <option value="Teacher" >Teacher</option>
+                        
                     </select>
         
                 </div>
@@ -75,6 +97,7 @@ require 'connect_DB.php';
                 </select>
 				</div>
 
+                <div id="tcrid">
                 <div class="form-group">
                 <label>Year</label>
           <select class="form-control" name="year">
@@ -85,7 +108,7 @@ require 'connect_DB.php';
                 </select>
            
           </div>
-          <div class="form-group">
+          <div class="form-group" >
           <label>Semester</label>
 
 
@@ -95,6 +118,7 @@ require 'connect_DB.php';
       
         </select>   
     </div>     
+                    </div>
 
 
 				<button type="submit" class="btn btn-primary  btn-block" name="loginSubmit" > Login</button>
@@ -151,9 +175,9 @@ if(isset($_POST["loginSubmit"]))
                 session_start();
     
     
-                $query = "INSERT INTO $datatableLogin VALUES('','$email','$pass','$type','$name','$dept','$phone','') ";
+                $query = "INSERT INTO $datatableLogin VALUES('','$email','$pass','$type','$name',$deptid,'$phone','') ";
         
-                mysqli_query($con,$query);
+                //mysqli_query($con,$query);
                 if(mysqli_query($con,$query)){
                     echo "<script>alert('data stored');</script>";
                     }else{
@@ -173,7 +197,6 @@ if(isset($_POST["loginSubmit"]))
                     $ss = "INSERT INTO $datatablestudent VALUES($iidd,$deptid,'','') ";
                     mysqli_query($con,$ss);
  
-        
                 }
                 if($type=="Student")
                 {
@@ -185,7 +208,7 @@ if(isset($_POST["loginSubmit"]))
                 $_SESSION['email']= $email ;
                 $_SESSION['pass']= $pass ;
                 $_SESSION['name']= $name ;
-                $_SESSION['dept']=$dept ;
+                $_SESSION['deptid']=$deptid ;
                 $_SESSION['phone']=$phone ;
                 $_SESSION['type']=$type;
         

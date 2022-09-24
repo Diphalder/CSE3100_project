@@ -32,7 +32,7 @@ if($type=='Student')
 
 
 }
-$dept=$v['dept'];
+$deptid=$v['deptid'];
 $phone=$v['phone'];
 
 
