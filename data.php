@@ -25,6 +25,12 @@ $type=$v['type'];
 if($type=='Student')
 {
     $roll=$v['roll'];
+
+
+
+
+
+
 }
 $dept=$v['dept'];
 $phone=$v['phone'];

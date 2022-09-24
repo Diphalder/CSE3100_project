@@ -1,13 +1,14 @@
 <?php
 
 
-
+$year=$_SESSION['year'];  
+$sem=$_SESSION['sem']; 
     $datatableMarks='marks';
     $datatableAttendance ="attendance";
 
     $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
 
-    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year=student.year and courselist.semester= student.sem and student.id =$id; ";
+    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year='$year'and courselist.semester= '$sem' and student.id =$id; ";
     $result = mysqli_query($con,$s);
     $number = mysqli_num_rows($result);
 

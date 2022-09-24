@@ -942,7 +942,7 @@ showCourse();
         {   echo '<script type="text/javascript">myFunction();</script>';
             global $id,$con;
             $datatable ="course";
-            $s = "select distinct(cid) from $datatable where  personID = $id";
+            $s = "select distinct(courselist.cid) from course,courselist where courselist.cid=course.cid and   personID = $id";
             $result = mysqli_query($con,$s);
             $num = mysqli_num_rows($result);
 

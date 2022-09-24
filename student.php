@@ -622,7 +622,7 @@ if(isset($_POST["viewprofile"]))
 
     <div  onclick="myFunction()" class="btn-group">
         <form  method='post'>
-            <button type="submit"  class="btn btn-primary"  name="viewResult" >view Result</button>
+            <button type="submit"  class="btn btn-primary"  name="viewResult1" >view Result</button>
         </form>
     </div>
 
@@ -826,7 +826,53 @@ if(isset($_POST["viewprofile"]))
 
 
 //______________view result____________________
-  if(isset($_POST["viewResult"]))
+
+if(isset($_POST["viewResult1"]))
+{
+    echo '<script type="text/javascript">myFunction();</script>';
+        ?>
+        <div class="d-flex justify-content-center">
+        <div class="list" >
+    <form method='post'>
+        
+        <div>
+         <label>Year</label>
+            <select class="form-control" name="year">
+                <option value='1st' >  1st year </option>
+                <option value='2nd' >  2nd year </option>
+                <option value='3rd' >  3rd year </option>
+                <option value='4th' >  4th year </option>
+            </select>
+
+        </div>
+        <div>
+         <label>Semester</label>
+            <select class="form-control" name="sem">
+                <option value='odd' >  Odd </option>
+                <option value='even' >  Even </option>
+            </select>
+
+        </div>
+
+        <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success" name="viewResult2" >NEXT</button>
+
+        </div>
+    </form> 
+    </div>
+        </div>
+
+
+    <?php
+
+        
+}
+
+
+
+
+
+  if(isset($_POST["viewResult2"]))
   {
     echo '<script type="text/javascript">myFunction();</script>';
 
@@ -837,9 +883,16 @@ if(isset($_POST["viewprofile"]))
 
     $days = ['Saturday','Sunday','Monday','Tuesday' ,'Wednesday'];
 
+    $year = $_POST['year'];
+    $sem = $_POST['sem'];
+
+
+    $_SESSION['year']=$year;  
+    $_SESSION['sem']=$sem;  
+
 
     $datatableCourse ="course";
-    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year=student.year and courselist.semester= student.sem and student.id =$id; ";
+    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year='$year' and courselist.semester='$sem' and student.id =$id; ";
     $result = mysqli_query($con,$s);
     $number = mysqli_num_rows($result);
 
