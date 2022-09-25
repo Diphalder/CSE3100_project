@@ -26,13 +26,8 @@ if($type=='Student')
 {
     $roll=$v['roll'];
 
-
-
-
-
-
 }
-$deptid=$v['deptid'];
+
 $phone=$v['phone'];
 
 

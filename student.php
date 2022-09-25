@@ -672,9 +672,10 @@ if(isset($_POST["viewprofile"]))
           <div class="d-flex justify-content-center">
 
           <div class="list" >
-
+          <div class='list'> 
           <div class="container" >
-                <h3><p>Course list of :  </p></h3>
+          <h3><p>Course list of :  </p></h3>
+      
 
                 
                     
@@ -732,7 +733,7 @@ if(isset($_POST["viewprofile"]))
                 </div>
 
 
-             
+      </div>   
 
        
 
@@ -927,6 +928,10 @@ if(isset($_POST["viewResult1"]))
         
 
      <h3 style="text-align: center;">Result-sheet</h3>
+     <h5 style="text-align: center;" >Dept code : <?php echo $deptcode?></h5>
+    <h5 style="text-align: center;"> Dept name : <?php echo $deptname?></h5>
+    <h5 style="text-align: center;">Year : <?php echo $year?></h5>
+    <h5 style="text-align: center;">Semester : <?php echo $sem?></h5>
         <table class="table table-striped table-bordered"">
             <tr>
                 <td><h5>Course<br> Code</h5></td>

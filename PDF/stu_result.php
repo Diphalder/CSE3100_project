@@ -24,10 +24,12 @@ $sem=$_SESSION['sem'];
         $dv = mysqli_fetch_assoc($dr);
         $course[$i]=$dv['ccode'];
         $i++;
-    }
-
-
-
+    }                        
+    $ds = "SELECT dept.deptcode,dept.deptname FROM dept,student WHERE dept.deptid=student.deptid and student.id=$id";
+    $dr = mysqli_query($con,$ds);
+    $dv = mysqli_fetch_assoc($dr);
+    $deptcode=$dv['deptcode'];
+    $deptname=$dv['deptname'];
 
 ?>
 
@@ -60,7 +62,8 @@ table, th, td {
     <h3 style="text-align: center;">Result-sheet</h3>
     <h5 >Name : <?php echo $name?></h5>
     <h5 >Roll : <?php echo $roll?></h5>
-    <h5 >dept : <?php echo $dept?></h5>
+    <h5 >dept code : <?php echo $deptcode?></h5>
+    <h5 >dept name : <?php echo $deptname?></h5>
 
         <table width="100%">
             <tr>
