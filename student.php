@@ -179,35 +179,21 @@ if(isset($_POST["addroll"]))
                 <div class="container" >
                 <h3><p>Information :  </p></h3>
 
-                
-                    <div class="row" >
+
+                <div class="row">
                         <div class="col-sm-3" >
-                        <h6><p>Email  </p></h6>
+                        <h6><p> Roll   </p></h6>
 
                         </div>
                         <div class="col-sm-1" >
                         <h6><p>:</p></h6>
                         </div>
                         <div class="col-sm-8" >
-                        <p>    <?php echo $email ;?></p>
+                        <p>    <?php echo $roll;   ?></p>
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3" >
 
-                        <h6><p>Phone No.  </p></h6>
-
-                        </div>
-                        <div class="col-sm-1" >
-                        <h6><p>:</p></h6>
-                        </div>
-                        <div class="col-sm-8" >
-
-                        <p>    <?php echo $phone; ?></p>
-
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-sm-3" >
                         <h6><p>Dept. code  </p></h6>
@@ -258,8 +244,6 @@ if(isset($_POST["addroll"]))
 
                         </div>
                     </div>
-
-
                     <div class="row">
                         <div class="col-sm-3" >
                         <h6><p>Year </p></h6>
@@ -309,25 +293,45 @@ if(isset($_POST["addroll"]))
                         </div>
                     </div>
 
-
-
-
-
-
-
-                    <div class="row">
+                
+                    <div class="row" >
                         <div class="col-sm-3" >
-                        <h6><p> Roll   </p></h6>
+                        <h6><p>Email  </p></h6>
 
                         </div>
                         <div class="col-sm-1" >
                         <h6><p>:</p></h6>
                         </div>
                         <div class="col-sm-8" >
-                        <p>    <?php echo $roll;   ?></p>
+                        <p>    <?php echo $email ;?></p>
 
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-3" >
+
+                        <h6><p>Phone No.  </p></h6>
+
+                        </div>
+                        <div class="col-sm-1" >
+                        <h6><p>:</p></h6>
+                        </div>
+                        <div class="col-sm-8" >
+
+                        <p>    <?php echo $phone; ?></p>
+
+                        </div>
+                    </div>
+                    
+
+                   
+
+
+
+
+
+
+                
 
                  
                     

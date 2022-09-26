@@ -694,7 +694,7 @@ if(isset($_POST["addcourse"]))
    
     <div class="form-group" ">
     <form  method='post'>
-    <h3>Enter Departments</h3>
+    <h3>Enter Courses</h3>
         <table class="table table-striped ">
         <tr>
               <td><h5>Course Code</h5></td>

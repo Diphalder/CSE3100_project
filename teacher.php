@@ -159,34 +159,9 @@ function deSelect(){
                 <div class="container"  >
                     <h3><p>Information :  </p></h3>
 
-                        <div class="row">
-                            <div class="col-sm-3" >
-                            <h6><p>Email  </p></h6>
-
-                            </div>
-                            <div class="col-sm-1" >
-                            <h6><p>:</p></h6>
-                            </div>
-                            <div class="col-sm-8" >
-                            <p>   <?php echo $email ;?></p>
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3" >
-
-                            <h6><p>Phone No.  </p></h6>
-
-                            </div>
-                            <div class="col-sm-1" >
-                            <h6><p>:</p></h6>
-                            </div>
-                            <div class="col-sm-8" >
-
-                            <p> <?php echo $phone; ?></p>
-
-                            </div>
-                        </div>
+                       
+                        
+                        
                         <div class="row">
                         <div class="col-sm-3" >
                         <h6><p>Dept. code  </p></h6>
@@ -237,6 +212,35 @@ function deSelect(){
 
                         </div>
                     </div>
+
+                    <div class="row">
+                            <div class="col-sm-3" >
+                            <h6><p>Email  </p></h6>
+
+                            </div>
+                            <div class="col-sm-1" >
+                            <h6><p>:</p></h6>
+                            </div>
+                            <div class="col-sm-8" >
+                            <p>   <?php echo $email ;?></p>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3" >
+
+                            <h6><p>Phone No.  </p></h6>
+
+                            </div>
+                            <div class="col-sm-1" >
+                            <h6><p>:</p></h6>
+                            </div>
+                            <div class="col-sm-8" >
+
+                            <p> <?php echo $phone; ?></p>
+
+                            </div>
+                        </div>
                         
 
                     </div>
@@ -355,7 +359,7 @@ if(isset($_POST["finalmark"]))
                  $num = mysqli_num_rows($result);        
                  
                 while( $var = mysqli_fetch_assoc($result))
-                    { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+                    { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
 
 
                         <?php
@@ -426,11 +430,48 @@ if(isset($_POST["getfinalmark"]))
         $rollEnd = $_POST['rollEnd'];
         $course = $_POST['course'];
 
+        $ds = "SELECT * From courselist WHERE cid=$course";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
+
 
 
         ?>
          <div class="d-flex justify-content-center" >
              <div class="list">
+             <div class="list">
+        <div class="container"  >
+        <h4><p> <u> Semester final mark </u>  </p></h4>
+
+                        <div class="row">
+                            <div class="col-sm-5" >
+                            <h5><p>  Course Code   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['ccode']?>    </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5><p>  Course Name   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['cname']?>   </p></h5>
+
+                            </div>
+                        </div>
+        </div>   </div>
+
+
+
+
         <form method='post'>
                 <input type="hidden" name="rollStart" value="<?php echo $rollStart?>">
                 <input type="hidden" name="rollEnd" value="<?php echo $rollEnd?>">
@@ -594,7 +635,7 @@ if(isset($_POST["savefinalmarks"]))
          
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
                             <?php
                         }
                 
@@ -682,7 +723,9 @@ if(isset($_POST["savefinalmarks"]))
         </div>
         <div class="minibox"><h3 style="text-align: center;">Attendance Sheet</h3>
         <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
-              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
+        <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
+
+        
         
             
             <div class="table-wrapper" >
@@ -1248,7 +1291,7 @@ showCourse();
                      $result = mysqli_query($con,$s);
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
                             <?php
                         }
                 
@@ -1315,10 +1358,67 @@ showCourse();
         $course = $_POST['course'];
 
 
+        $ds = "SELECT * From courselist WHERE cid=$course";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
 
         ?>
         <div class="d-flex justify-content-center">
         <div class="list">
+
+
+        <div class="list">
+        <div class="container"  >
+                        <div class="row">
+                            <div class="col-sm-5" >
+                            <h5><p>  Course Code   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['ccode']?>    </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5><p>  Course Name   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['cname']?>   </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5><p>   Cycle  </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>    <?php echo $cycle ?>     </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5><p>  Day   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>   <?php echo $day ?>      </p></h5>
+                            </div>
+                        </div>
+        </div>   </div>
+
+
         
 
 
@@ -1347,7 +1447,7 @@ showCourse();
                     
                 </tr>
             <tr>
-                    <td ><h5>     Roll      </h5></td>
+                    <td ><h5>Roll</h5></td>
                     <td><h5>Attendance Status</h5></td>
                 </tr>
         
@@ -1498,7 +1598,7 @@ showCourse();
                      $num = mysqli_num_rows($result);        
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
                             <?php
                         }
                 
@@ -1579,11 +1679,58 @@ showCourse();
         $course = $_POST['course'];
         $ctno = $_POST['ctno'];
 
+        $ds = "SELECT * From courselist WHERE cid=$course";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
+
 
 
         ?>
          <div class="d-flex justify-content-center" >
              <div class="list">
+             <div class="list">
+        <div class="container"  >
+                        <div class="row">
+                            <div class="col-sm-5" >
+                            <h5><p>  Course Code   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['ccode']?>    </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5><p>  Course Name   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['cname']?>   </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5><p>  Class Test no. </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>    <?php echo $ctno ?>     </p></h5>
+
+                            </div>
+                        </div>
+        </div>   </div>
+
+
+
+
         <form method='post'>
                 <input type="hidden" name="rollStart" value="<?php echo $rollStart?>">
                 <input type="hidden" name="rollEnd" value="<?php echo $rollEnd?>">
@@ -1741,7 +1888,7 @@ showCourse();
              
                          
                         while( $var = mysqli_fetch_assoc($result))
-                            { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+                            { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
                                 <?php
                             }
                     
@@ -1938,7 +2085,7 @@ showCourse();
                      $num = mysqli_num_rows($result);        
                      
                     while( $var = mysqli_fetch_assoc($result))
-                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode']?></option>
+                        { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
 
                             <?php
                         }
@@ -2023,9 +2170,37 @@ showCourse();
      <a target="_blank" href="generatePDF.php?id=<?=$row['id']?>" class="btn  btn-success"> <i class="fa fa-file-pdf-o"></i>Print</a>
      </div>
 
-              <h3 style="text-align: center;">Result Sheet</h3>
-              <h5 style="text-align: center;">Course Code : <?php echo $dv['ccode']?></h5>
-              <h5 style="text-align: center;">Course Name : <?php echo $dv['cname'] ?></h5>
+        
+
+   
+              <div class="container"  >
+        <h3  style="text-align: center;"><p> <u> Result Sheet </u>  </p></h3>
+
+                        <div class="row">
+                            <div class="col-sm-5" >
+                            <h5 style="text-align: right;" ><p>  Course Code   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5 style="text-align: left;" > <p>     <?php echo $dv['ccode']?>    </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5 style="text-align: right;" ><p>  Course Name   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5 style="text-align: left;" > <p>     <?php echo $dv['cname']?>   </p></h5>
+
+                            </div>
+                        </div>
+        </div>
               
             <table class="table table-striped table-bordered " >
                 <tr>
