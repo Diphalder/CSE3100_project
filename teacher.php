@@ -862,7 +862,7 @@ if(isset($_POST["savefinalmarks"]))
                 $dv = mysqli_fetch_assoc($dr);
                 $deptid=$dv['deptid'];
 
-                $s = "select * from $datatable where  deptid=$deptid order by year,semester desc";
+                $s = "select * from $datatable where  deptid=$deptid and cid not in( select cid from course where personID=$id ) order by year,semester desc";
                 $result = mysqli_query($con,$s);
                 $num = mysqli_num_rows($result);
 
