@@ -275,7 +275,7 @@ function deSelect(){
 </div>
   
 <div class="list" >
-    <div class="d-flex justify-content-center">
+    <div class="container" >
     <div class="btn-group">
         <form  method='post'>
             <button type="submit" class="btn btn-primary" name="viewCourse" >view Courses list</button>
@@ -310,6 +310,17 @@ function deSelect(){
                 <button type="submit" class="btn btn-primary" name="finalmark" >add Final Mark</button>
             </form>
         </div>
+
+        <div class="btn-group">
+            <form  method='post'>
+                <button type="submit" class="btn btn-primary" name="addlabmark" >Lab Mark</button>
+            </form>
+        </div>
+        <div class="btn-group">
+            <form  method='post'>
+                <button type="submit" class="btn btn-primary" name="addprojectmark" >Project Mark</button>
+            </form>
+        </div>
         
         <div class="btn-group">
             <form  method='post'>
@@ -324,8 +335,645 @@ function deSelect(){
     <?php
 
 //
+//______________lab mark_____________
+if(isset($_POST["addlabmark"]))
+{
+
+    echo '<script type="text/javascript">myFunction();</script>';
+
+
+    global $id,$con;
+    
+
+    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Lab'";
+
+
+    $result = mysqli_query($con,$s);
+    $num = mysqli_num_rows($result);
+    if($num!=0)
+    {
+
+        ?>
+
+    <div class="d-flex justify-content-center">
+    <div class="list"  >
+    <h3 style="text-align: center;"> Add Lab marks </h3>
+    <form method='post'>
+        <div>
+        <label>Course Code</label>
+            <select class="form-control" name="course" required>
+                <?php  
+                 global $id,$con;
+                 $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Lab'";
+
+                 $result = mysqli_query($con,$s);
+                 $num = mysqli_num_rows($result);        
+                 
+                while( $var = mysqli_fetch_assoc($result))
+                    { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
+
+                        <?php
+                    }
+            
+                    ?>
+            </select>
+
+        </div>
+    
+        <div class="form-group">
+            <label>Roll range</label>
+            <input type="text" name="rollStart" class="form-control" required>
+            <br>
+            <input type="text" name="rollEnd" class="form-control" required>
+        </div>
+        <div class="d-flex justify-content-end">
+
+        <button type="submit" class="btn btn-success" name="getLabmark" >NEXT</button>
+
+        </div>
+    </form> 
+
+    </div>
+    </div>
+    <?php
+
+               
+    }
+    else
+    {
+        ?>
+
+    <div class="d-flex justify-content-center">
+        
+    <div class='list'>
+        <div class="minibox">
+            <h3>No Course are available</h3>
+
+        </div>
+        <div class="minibox">
+            <div class="form-group"> 
+                <form  method='post'>
+                    <button type="submit" class="btn btn-success btn-block " name="addCourse" >Add Course</button>
+                </form>
+            </div>
+        </div>
+    </div>
+       
+    </div>
+
+      <?php
+
+    }
+
+}
+if(isset($_POST["getLabmark"]))
+{
+
+    echo '<script type="text/javascript">myFunction();</script>';
+
+    $rollStart = $_POST['rollStart'];
+        $rollEnd = $_POST['rollEnd'];
+        $course = $_POST['course'];
+
+        $ds = "SELECT * From courselist WHERE cid=$course";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
+
+
+
+        ?>
+         <div class="d-flex justify-content-center" >
+             <div class="list">
+             <div class="list">
+        <div class="container"  >
+        <h4><p> <u> Lab mark </u>  </p></h4>
+
+                        <div class="row">
+                            <div class="col-sm-5" >
+                            <h5><p>  Course Code   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['ccode']?>    </p></h5>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5" >
+                            <h5><p>  Course Name   </p></h5>
+                            </div>
+                            <div class="col-sm-1" >
+                            <h5><p>:</p></h5>
+                            </div>
+                            <div class="col-sm-6" >
+                            <h5> <p>     <?php echo $dv['cname']?>   </p></h5>
+
+                            </div>
+                        </div>
+        </div>   </div>
+
+
+
+
+        <form method='post'>
+                <input type="hidden" name="rollStart" value="<?php echo $rollStart?>">
+                <input type="hidden" name="rollEnd" value="<?php echo $rollEnd?>">
+                <input type="hidden" name="course" value="<?php echo $course?>">
+
+        
+            <table class="table table-striped table-bordered" style="max-width: 500px;">
+                <tr>
+                    <td>Roll</td>
+                    <td>Attandance Mark(8%)</td>
+                    <td>Quiz(20%)</td>
+                    <td>Performance/Report(47%)</td>
+                    <td>Viva(25%)</td>
+                </tr>
+        
+        <?php
+        $datatable='lab';
+        for($i=$rollStart;$i<=$rollEnd;$i++)
+        {
+
+            $s = "select * from $datatable where  cid='$course' && roll='$i'";
+            $result = mysqli_query($con,$s);
+            $num = mysqli_num_rows($result);
+
+            $quiz;
+            $perform;
+            $viva;
+            if($num==0)
+            {
+                
+                $quiz='';
+                $perform='';
+                $viva='';
+
+            }
+            else
+            {
+                $var = mysqli_fetch_assoc($result); 
+
+                $quiz=$var['quiz'];
+                $perform=$var['perform'];
+                $viva=$var['viva'];
+            }
+
+            
+            $ls = "SELECT AVG(attendance.attendance)*100 as per FROM attendance WHERE attendance.roll='$i' and attendance.cid='$course';";
+            $lresult = mysqli_query($con,$ls);
+            $lvar = mysqli_fetch_assoc($lresult); 
+
+            $Amark=0;
+            $percentage=$lvar['per'];
+            if($percentage>=90)
+            {
+                $Amark=8;
+            }
+            else if($percentage>=85)
+            {
+                $Amark=7;
+            }
+            else if($percentage>=80)
+            {
+                $Amark=6;
+            }
+            else if($percentage>=70)
+            {
+                $Amark=5;
+            }
+            else if($percentage>=60)
+            {
+                $Amark=4;
+            }
+
+            ?>
+
+				<tr>
+                    <td><?php echo $i?></td>
+                    <td><?php echo $Amark?></td>
+                    <td style="text-align: center;"><input type="number" min="0" max="20" value="<?php echo  $quiz?>" name="quiz<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" min="0" max="47" value="<?php echo   $perform?>" name="perform<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" min="0" max="25" value="<?php echo  $viva?>" name="viva<?php echo $i?>"></td>
+                </tr>
+                   
+            <?php
+
+        }
+
+        ?>
+        </table>
+
+            <button type="submit" class="btn btn-success  btn-block" name="savelabmarks" >Save</button>
+
+        </form>
+         </div>
+         </div>
+        
+        <?php
+        
+
+
+
+
+}
+if(isset($_POST["savelabmarks"]))
+{
+    echo '<script type="text/javascript">myFunction();</script>';
+
+    global $name;
+    global $con;
+
+    $rollStart = $_POST['rollStart'];
+
+    $rollEnd = $_POST['rollEnd'];
+    $course = $_POST['course'];
+
+
+    $datatable="lab";
+   
+    for($i=$rollStart;$i<=$rollEnd;$i++)
+    {
+
+        $xquiz=$_POST['quiz'.$i];
+        $xperform=$_POST['perform'.$i];
+        $xviva=$_POST['viva'.$i];
+
+
+        $s = "select * from $datatable where  cid='$course' && roll='$i' ";
+        $result = mysqli_query($con,$s);
+        $num = mysqli_num_rows($result);
+
+        if($num==0)
+        {
+            $query = "INSERT INTO $datatable VALUES('$i','$course','$xquiz','$xperform','$xviva') ";
+
+            mysqli_query($con,$query);
+  
+        }
+        else
+        {
+            $var = mysqli_fetch_assoc($result);         
+            $query = "UPDATE $datatable  SET quiz='$xquiz',perform='$xperform',viva='$xviva' WHERE roll=$i and cid=$course";
+
+            mysqli_query($con,$query);
+
+
+        }
+
+    }
+
+
+    ?>
+    <div class="d-flex justify-content-center">
+    <div class="list">
+    <h3>Data Store successfully</h3>
+    </div></div>
+    <?php
+
+   
+
+
+
+}
+
+
+
+
+
+
+//______________project mark_____________
+if(isset($_POST["addprojectmark"]))
+{ echo '<script type="text/javascript">myFunction();</script>';
+
+    global $id,$con;
+    
+
+    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Project/Thesis'";
+
+
+    $result = mysqli_query($con,$s);
+    $num = mysqli_num_rows($result);
+    if($num!=0)
+    {
+
+        ?>
+
+    <div class="d-flex justify-content-center">
+    <div class="list"  >
+    <h3 style="text-align: center;"> Add Project Marks </h3>
+    <form method='post'>
+    <div class="form-group" >    
+    <div>
+        <label><h5>Course Code</h5></label>
+            <select class="form-control" name="course" required>
+                <?php  
+                 global $id,$con;
+                 $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Project/Thesis'";
+
+                 $result = mysqli_query($con,$s);
+                 $num = mysqli_num_rows($result);        
+                 
+                while( $var = mysqli_fetch_assoc($result))
+                    { ?><option value="<?php echo $var['cid']?>" ><?php echo $var['ccode'].'  ['.$var['cname'].']'?></option>
+
+
+                        <?php
+                    }
+            
+                    ?>
+            </select>
+
+        </div>
+        
+        <div class="d-flex justify-content-end" >
+        <button type="submit" class="btn btn-success" name="viewprojectmark">View marks</button>
+                </div>
+
+
+
+
+       
+    <h5>add mark</h5>
+        <table class="table table-striped ">
+        <tr>
+              <td><h5>Roll</h5></td>
+              <td><h5>Marks (out of 100)</h5></td>
+          </tr>
+
+        <?php 
+        
+        for($i=0;$i<10;$i++) 
+        {
+            $ii=$i+1; ?>
+            <tr>
+              <td>  
+                   <div class="form-group">
+            
+                   <input type="text"  name="roll<?php echo $i?>" class="form-control" value="">
+            
+                  </div>
+          </td>
+              <td>   
+                  <div class="form-group">
+            
+                  <input type="number" min="0" max="100"  name="mark<?php echo $i?>" class="form-control" value=''>
+            
+              </div>
+          </td>
+          
+            <tr>
+            <?php 
+        }?>
+        </table>
+
+        <button type="submit" class="btn btn-success btn-block" name="saveprojectmark">Save</button>
+   
+    </form> 
+
+    </div>
+    </div>
+    <?php
+
+               
+    }
+    else
+    {
+        ?>
+
+    <div class="d-flex justify-content-center">
+        
+    <div class='list'>
+        <div class="minibox">
+            <h3>No Course are available</h3>
+
+        </div>
+        <div class="minibox">
+            <div class="form-group"> 
+                <form  method='post'>
+                    <button type="submit" class="btn btn-success btn-block " name="addCourse" >Add Course</button>
+                </form>
+            </div>
+        </div>
+    </div>
+       
+    </div>
+
+      <?php
+
+    }
+
+}
+if(isset($_POST["saveprojectmark"]))
+{
+
+    global $id,$con;
+  
+    $datatable ="projectmark";
+  
+    $cid=$_POST["course"];
+
+
+    for($i=0;$i<10;$i++)
+    {
+        $roll=$_POST["roll".$i];
+        $mark=$_POST["mark".$i];
+        if($roll!=""&&$mark!="")
+        {
+            $s = "INSERT INTO $datatable VALUES('','$roll','$cid','$mark')";
+            mysqli_query($con,$s);
+        }
+
+    }
+
+
+    ?>
+  
+    <div class="d-flex justify-content-center">
+        <div class="list">
+            <h3>Data stored</h3>
+        </div>
+    </div>
+      
+      <?php
+
+}
+
+if(isset($_POST["viewprojectmark"]))
+{
+    echo '<script type="text/javascript">myFunction();</script>';
+                        global $id,$con;
+                        $cid=$_POST["course"];
+                        $datatable ="projectmark";
+                        $s = "select * from  $datatable where cid='$cid'";
+                        $result = mysqli_query($con,$s);
+                        $num = mysqli_num_rows($result);
+
+                        if($num!=0)
+                        {
+                            ?>
+                            <div class="d-flex justify-content-center">
+                            <div class="list" >
+                                <table class="table table-striped table-bordered"  >
+                                    <tr>
+                                        <td><h5>Roll</h5></td>
+                                        <td><h5>Mark</h5></td>
+                                    </tr>
+                            <?php
+                              $datatable ="projectmark";
+                              $ds = "select * from  $datatable where cid='$cid'";
+                              $dr = mysqli_query($con,$ds);
+                                    while($num--)
+                                    {
+                                        $dv = mysqli_fetch_assoc($dr);
+
+                                        ?>
+                                        <tr>
+                                            <td ><?php echo $dv['roll']?></td> 
+                                            <td ><?php echo $dv['mark']?></td>   
+                                    </tr>
+                                
+                                    <?php
+
+                                    }
+
+                            ?>
+                                </table>
+                                
+                                <div class="form-group"> 
+                                <form  method='post'>
+                                <input type="hidden" name="cid" value="<?php echo $cid?>">
+                                    <button type="submit" class="btn btn-danger btn-block " name="deleteprojectmark" >Delete</button>
+                                </form>
+                                </div>
+
+                                </div>
+                            </div>
+
+                            <?php
+                        
+                        }
+                        else
+                        {
+                            ?>
+
+                    <div class="d-flex justify-content-center">
+                        
+                    <div class='list'>
+                        <div class="minibox">
+                            <h3>Empty</h3>
+
+                        </div>
+      
+                    </div>
+                    
+                    </div>
+            
+                    <?php
+
+
+        }
+
+}
+
+if(isset($_POST["deleteprojectmark"]))
+{
+
+    echo '<script type="text/javascript">myFunction();</script>';
+    global $id,$con;
+    $cid=$_POST["cid"];
+    $datatable ="projectmark";
+    $s = "select * from  $datatable where cid='$cid'";
+    $result = mysqli_query($con,$s);
+    $num = mysqli_num_rows($result);
+
+    
+        ?>
+          <form  method='post'>
+        <div class="d-flex justify-content-center">
+        <div class="list" >
+            <table class="table table-striped table-bordered"  >
+                <tr>
+                    <td><h5>Roll</h5></td>
+                    <td><h5>Mark</h5></td>
+                    <td><h5>Select For Delete</h5></td>
+                </tr>
+                
+        <?php
+          $datatable ="projectmark";
+          $ds = "select * from  $datatable where cid='$cid'";
+          $dr = mysqli_query($con,$ds);
+                while($num--)
+                {
+                    $dv = mysqli_fetch_assoc($dr);
+                    ?>
+                    <tr>
+                        <td ><?php echo $dv['roll']?></td> 
+                        <td ><?php echo $dv['mark']?></td>
+                        <div class="checkbox " ><td style="text-align: center;"><input type="checkbox" class="largerCheckbox" value="<?php echo $dv['id']?>" name="projectids[]"></td></div>             
+                    </tr>
+                <?php
+                
+                }
+
+        ?>
+            </table>
+                <div class="form-group"> 
+                <button type="submit" class="btn btn-success btn-block " name="donedeleteprojectmark" >Delete</button>
+            </form>
+        </div>
+            </div>
+        </div>
+
+        <?php
+    
+}
+if(isset($_POST["donedeleteprojectmark"]))
+{
+
+    echo '<script type="text/javascript">myFunction();</script>';
+
+        $ids=$_POST['projectids'];
+
+
+        if(empty($ids))
+        {
+            goto kkkk;
+        }
+
+
+        global $id,$con;
+        $datatable ="projectmark";
+        foreach ($ids as $c)
+        {
+            $s = "DELETE FROM $datatable where id=$c ";
+            mysqli_query($con,$s);
+    
+        }
+    
+        kkkk:
+    
+        ?>
+    
+        <div class="d-flex justify-content-center">
+            <div class="list">
+                <h3>Delete successfully</h3>
+            </div>
+        </div>
+          
+          
+          <?php
+
+}
+
+
+
+
 
 //______________final marks_____________
+
 if(isset($_POST["finalmark"]))
 {
     echo '<script type="text/javascript">myFunction();</script>';
@@ -334,7 +982,7 @@ if(isset($_POST["finalmark"]))
     global $id,$con;
     
 
-    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory'";
 
 
     $result = mysqli_query($con,$s);
@@ -353,7 +1001,7 @@ if(isset($_POST["finalmark"]))
             <select class="form-control" name="course" required>
                 <?php  
                  global $id,$con;
-                 $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+                 $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory'";
 
                  $result = mysqli_query($con,$s);
                  $num = mysqli_num_rows($result);        
@@ -514,8 +1162,8 @@ if(isset($_POST["getfinalmark"]))
 
 				<tr>
                     <td><?php echo $i?></td>
-                    <td style="text-align: center;"><input type="number" value="<?php echo $valueA?>" name="A<?php echo $i?>"></td>
-                    <td style="text-align: center;"><input type="number" value="<?php echo $valueB?>" name="B<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" min="0" max="36" value="<?php echo $valueA?>" name="A<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" min="0" max="36" value="<?php echo $valueB?>" name="B<?php echo $i?>"></td>
                 </tr>
                    
             <?php
@@ -609,7 +1257,7 @@ if(isset($_POST["savefinalmarks"]))
 
         global $id,$con;
       
-        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type in('Theory','Lab')";
 
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
@@ -628,7 +1276,7 @@ if(isset($_POST["savefinalmarks"]))
                 <select name="course" class="form-control" required>
                     <?php  
                      global $id,$con;
-                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type in('Theory','Lab') ";
 
                      $result = mysqli_query($con,$s);
                      $num = mysqli_num_rows($result);
@@ -878,6 +1526,7 @@ if(isset($_POST["savefinalmarks"]))
                                 <tr>
                                     <td>Course code</td>
                                     <td>Course Name</td>
+                                    <td>Type</td>
                                     <td>Year</td>
                                     <td>Semester</td>
                                     <td>select for add</td>
@@ -899,6 +1548,9 @@ if(isset($_POST["savefinalmarks"]))
                                     </td>
                                     <td>
                                     <?php echo $dv['cname']; ?>
+                                    </td>
+                                    <td>
+                                    <?php echo $dv['type']; ?>
                                     </td>
                                     <td>
                                     <?php echo $dv['year']; ?>
@@ -1006,6 +1658,7 @@ if(isset($_POST["savefinalmarks"]))
                                     <tr>
                                         <td><h5>Course Code</h5></td>
                                         <td><h5>Course Name</h5></td>
+                                        <td><h5>Type</h5></td>
                                         <td><h5>Year</h5></td>
                                         <td><h5>Semester</h5></td>
                                         <td colspan="10000000"><h5>Other Teacher<br>Name</h5></td>
@@ -1023,7 +1676,8 @@ if(isset($_POST["savefinalmarks"]))
                                         ?>
                                         <tr>
                                             <td ><?php echo $dv['ccode']?></td> 
-                                            <td ><?php echo $dv['cname']?></td>  
+                                            <td ><?php echo $dv['cname']?></td> 
+                                            <td ><?php echo $dv['type']?></td>   
                                             <td ><?php echo $dv['year']?></td> 
                                             <td ><?php echo $dv['semester']?></td>  
                                         <?php
@@ -1132,6 +1786,7 @@ if(isset($_POST["deleteCourse"]))
                     <tr>
                         <td>Course Code </td>
                         <td>Course Name </td>
+                        <td>Type </td>
                         <td>Year </td>
                         <td>Semester </td>
                         <td>Select for Delete</td>
@@ -1146,6 +1801,7 @@ if(isset($_POST["deleteCourse"]))
                     <tr>
                         <td><?php echo $var['ccode']?></td>
                         <td><?php echo $var['cname']?></td>
+                        <td><?php echo $var['type']?></td>
                         <td><?php echo $var['year']?></td>
                         <td><?php echo $var['semester']?></td>
                         <div class="checkbox"  ><td style="text-align: center;"><input type="checkbox" class="largerCheckbox"  value="<?php echo $cid?>" name="courses[]"></td></div>
@@ -1236,7 +1892,8 @@ showCourse();
     {   echo '<script type="text/javascript">myFunction();</script>';
 
         global $id,$con;
-        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id  and courselist.type in('Lab','Theory') ";
+        
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -1287,7 +1944,7 @@ showCourse();
                 <select class="form-control" name="course"  required>
                     <?php  
                      global $id,$con;
-                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type in('Lab','Theory') ";
                      $result = mysqli_query($con,$s);
                      
                     while( $var = mysqli_fetch_assoc($result))
@@ -1577,7 +2234,7 @@ showCourse();
     if(isset($_POST["ctmark"]))
     {   echo '<script type="text/javascript">myFunction();</script>';
         global $id,$con;
-        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id  and courselist.type ='Theory' ";
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -1593,7 +2250,7 @@ showCourse();
                 <select class="form-control" name="course" required>
                     <?php  
                      global $id,$con;
-                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type in('Theory')";
                      $result = mysqli_query($con,$s);
                      $num = mysqli_num_rows($result);        
                      
@@ -1730,7 +2387,7 @@ showCourse();
 
 
 
-
+        <div class="d-flex justify-content-center" >
         <form method='post'>
                 <input type="hidden" name="rollStart" value="<?php echo $rollStart?>">
                 <input type="hidden" name="rollEnd" value="<?php echo $rollEnd?>">
@@ -1740,8 +2397,8 @@ showCourse();
         
             <table class="table table-striped table-bordered" style="max-width: 500px;">
                 <tr>
-                    <td><h5>Roll</h5></td>
-                    <td><h5>Marks</h5></td>
+                    <td><h5>student Roll</h5></td>
+                    <td><h5>Class-Test Marks</h5></td>
                 </tr>
         
         <?php
@@ -1769,7 +2426,7 @@ showCourse();
 
 				<tr>
                     <td><?php echo $i?></td>
-                    <td style="text-align: center;"><input type="number" value="<?php echo $value?>" name="<?php echo $i?>"></td>
+                    <td style="text-align: center;"><input type="number" min="0" max="20" value="<?php echo $value?>" name="<?php echo $i?>"></td>
                 </tr>
                    
             <?php
@@ -1782,7 +2439,7 @@ showCourse();
             <button type="submit" class="btn btn-success  btn-block" name="takeCTmarksDone" >DONE</button>
 
         </form>
-         </div>
+         </div> </div>
          </div>
         
         <?php
@@ -1858,7 +2515,7 @@ showCourse();
     {
         echo '<script type="text/javascript">myFunction();</script>';
         global $id,$con;
-        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory' ";
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
         if($num!=0)
@@ -1875,7 +2532,7 @@ showCourse();
                         <?php  
                          global $id,$con;
                 
-                         $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+                         $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory'";
 
                          $result = mysqli_query($con,$s);
                          $num = mysqli_num_rows($result);
@@ -2061,7 +2718,7 @@ showCourse();
     {   echo '<script type="text/javascript">myFunction();</script>';
 
         global $id,$con;
-        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory' ";
 
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
@@ -2079,7 +2736,7 @@ showCourse();
                 <select class="form-control" name="course" required>
                     <?php  
                      global $id,$con;
-                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory' ";
 
                      $result = mysqli_query($con,$s);
                      $num = mysqli_num_rows($result);        

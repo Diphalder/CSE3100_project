@@ -657,7 +657,7 @@ if(isset($_POST["viewprofile"]))
 
     ?>
     
- <?php
+    <?php
 
 
 
@@ -666,7 +666,7 @@ if(isset($_POST["viewprofile"]))
         echo '<script type="text/javascript">myFunction();</script>';
       global $id,$con,$datatablelogin;
       $datatable ="course";
-      $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year=student.year and courselist.semester= student.sem and student.id =$id; ";
+      $s = "SELECT courselist.cid, courselist.ccode, courselist.cname, courselist.type, courselist.credit FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year=student.year and courselist.semester= student.sem and student.id =$id; ";
       $result = mysqli_query($con,$s);
       $num = mysqli_num_rows($result);
 
@@ -745,6 +745,8 @@ if(isset($_POST["viewprofile"]))
               <tr>
                   <td><h5>Course Code</h5></td>
                   <td><h5>Course Name</h5></td>
+                  <td><h5>Credit</h5></td>
+                  <td><h5>Type</h5></td>
                   <td colspan="10000000"><h5>Teacher allocated</h5></td>
               </tr>
           <?php
@@ -754,7 +756,9 @@ if(isset($_POST["viewprofile"]))
               ?>
               <tr>
                   <td ><?php echo $var['ccode']?></td> 
-                  <td ><?php echo $var['cname']?></td>   
+                  <td ><?php echo $var['cname']?></td> 
+                  <td ><?php echo $var['credit']?></td> 
+                  <td ><?php echo $var['type']?></td>    
               <?php
 
               $c= $var['cid'];
@@ -897,7 +901,7 @@ if(isset($_POST["viewResult1"]))
 
 
     $datatableCourse ="course";
-    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year='$year' and courselist.semester='$sem' and student.id =$id; ";
+    $s = "SELECT courselist.cid, courselist.ccode, courselist.cname FROM courselist,student WHERE student.deptid=courselist.deptid and courselist.year='$year' and courselist.semester='$sem' and student.id =$id and  courselist.type='Theory'; ";
     $result = mysqli_query($con,$s);
     $number = mysqli_num_rows($result);
 

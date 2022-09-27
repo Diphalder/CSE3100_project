@@ -699,6 +699,8 @@ if(isset($_POST["addcourse"]))
         <tr>
               <td><h5>Course Code</h5></td>
               <td><h5>Course name</h5></td>
+              <td><h5>Credit</h5></td>
+              <td><h5>Type</h5></td>
               <td><h5>department</h5></td>
               <td><h5>Year</h5></td>
               <td><h5>Semester</h5></td>
@@ -723,6 +725,28 @@ if(isset($_POST["addcourse"]))
                   <input type="text"  name="cname<?php echo $i?>" class="form-control" value="">
             
               </div>
+          </td>
+
+          </td>
+              <td>   
+                  <div class="form-group">
+            
+                  <input type="text"  name="credit<?php echo $i?>" class="form-control" value='0'>
+            
+              </div>
+          </td>
+
+
+          <td> 
+          <div class="form-group">
+          <select class="form-control" name="type<?php echo $i?>">
+                    <option value='Theory' >  Theory</option>
+                    <option value='Lab' >  Lab </option>
+                    <option value='Project/Thesis' >Project/Thesis</option>
+                </select>
+           
+          </div>
+
           </td>
          
               
@@ -831,9 +855,11 @@ if(isset($_POST["saveCourse"]))
           $deptid=$_POST["deptid".$i];
           $year=$_POST["year".$i];
           $sem=$_POST["sem".$i];
-          if($ccode!=""||$cname!="")
+          $_type=$_POST["type".$i];
+          $credit=$_POST["credit".$i];
+          if($ccode!=""&&$cname!="")
           {
-              $s = "INSERT INTO $datatable VALUES('','$ccode','$cname','$deptid','$year','$sem')";
+              $s = "INSERT INTO $datatable VALUES('','$ccode','$cname','$deptid','$year','$sem',$credit,'$_type')";
               mysqli_query($con,$s);
   
           }
