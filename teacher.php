@@ -845,6 +845,7 @@ if(isset($_POST["viewprojectmark"]))
                                 <div class="form-group"> 
                                 <form  method='post'>
                                 <input type="hidden" name="cid" value="<?php echo $cid?>">
+                                <button type="submit" class="btn btn-success  btn-block" name="editprojectmark" >Edit</button>
                                     <button type="submit" class="btn btn-danger btn-block " name="deleteprojectmark" >Delete</button>
                                 </form>
                                 </div>
@@ -877,6 +878,185 @@ if(isset($_POST["viewprojectmark"]))
         }
 
 }
+if(isset($_POST["editprojectmark"]))
+{
+    echo '<script type="text/javascript">myFunction();</script>';
+    global $id,$con;
+    $cid=$_POST["cid"];
+    $datatable ="projectmark";
+    $s = "select * from  $datatable where cid='$cid'";
+    $result = mysqli_query($con,$s);
+    $num = mysqli_num_rows($result);
+
+   
+        ?>
+        
+        <div class="d-flex justify-content-center">
+        <div class="list" >
+        <form  method='post'>
+            <table class="table table-striped table-bordered"  >
+                <tr>
+                    <td><h5>Roll</h5></td>
+                    <td><h5>Mark</h5></td>
+                </tr>
+        <?php
+          $datatable ="projectmark";
+          $ds = "select * from  $datatable where cid='$cid'";
+          $dr = mysqli_query($con,$ds);
+         
+                while($num--)
+                {
+                    $dv = mysqli_fetch_assoc($dr);
+
+                    ?>
+                    <tr>
+                        <td ><?php echo $dv['roll']?></td>
+                        <td style="text-align: center;"><input type="number" min="0" max="100" value="<?php echo $dv['mark']?>" name="<?php echo $dv['roll']?>"></td>  
+                </tr>
+            
+                <?php
+            
+                }
+
+        ?>
+            </table>
+            
+            <input type="hidden" name="cid" value="<?php echo $cid?>">
+            <button type="submit" class="btn btn-success  btn-block" name="saveeditprojectmark" >Save</button>
+               
+            </form>
+            </div>
+
+            </div>
+        </div>
+
+        <?php
+    
+    
+        ?>
+
+
+<?php
+
+
+
+}
+
+if(isset($_POST["saveeditprojectmark"]))
+{
+    echo '<script type="text/javascript">myFunction();</script>';
+    global $id,$con;
+    $cid=$_POST["cid"];
+    $datatable ="projectmark";
+    $s = "select * from  $datatable where cid=$cid";
+    $result = mysqli_query($con,$s);
+    $num = mysqli_num_rows($result);
+
+        
+                while($num--)
+                {
+                    $dv = mysqli_fetch_assoc($result);
+                    $roll=$dv['roll'];
+                    $mark=$_POST[$roll];
+                    //echo $roll;
+                    //echo $mark;
+                    $ds = "update $datatable set mark=$mark where roll=$roll and cid=$cid";
+                   $dr = mysqli_query($con,$ds);
+                    
+                }  
+
+
+
+
+
+
+
+
+
+
+
+                global $id,$con;
+                $datatable ="projectmark";
+                $s = "select * from  $datatable where cid='$cid'";
+                $result = mysqli_query($con,$s);
+                $num = mysqli_num_rows($result);
+
+                if($num!=0)
+                {
+                    ?>
+                    <div class="d-flex justify-content-center">
+                    <div class="list" >
+                        <table class="table table-striped table-bordered"  >
+                            <tr>
+                                <td><h5>Roll</h5></td>
+                                <td><h5>Mark</h5></td>
+                            </tr>
+                    <?php
+                      $datatable ="projectmark";
+                      $ds = "select * from  $datatable where cid='$cid'";
+                      $dr = mysqli_query($con,$ds);
+                            while($num--)
+                            {
+                                $dv = mysqli_fetch_assoc($dr);
+
+                                ?>
+                                <tr>
+                                    <td ><?php echo $dv['roll']?></td> 
+                                    <td ><?php echo $dv['mark']?></td>   
+                            </tr>
+                        
+                            <?php
+
+                            }
+
+                    ?>
+                        </table>
+                        
+                        <div class="form-group"> 
+                        <form  method='post'>
+                        <input type="hidden" name="cid" value="<?php echo $cid?>">
+                        <button type="submit" class="btn btn-success  btn-block" name="editprojectmark" >Edit</button>
+                            <button type="submit" class="btn btn-danger btn-block " name="deleteprojectmark" >Delete</button>
+                        </form>
+                        </div>
+
+                        </div>
+                    </div>
+
+                    <?php
+                
+                }
+                else
+                {
+                    ?>
+
+            <div class="d-flex justify-content-center">
+                
+            <div class='list'>
+                <div class="minibox">
+                    <h3>Empty</h3>
+
+                </div>
+
+            </div>
+            
+            </div>
+    
+            <?php
+
+
+}
+
+
+
+
+
+
+
+
+}
+
+
 
 if(isset($_POST["deleteprojectmark"]))
 {
@@ -2718,7 +2898,7 @@ showCourse();
     {   echo '<script type="text/javascript">myFunction();</script>';
 
         global $id,$con;
-        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory' ";
+        $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory' or courselist.type ='Lab' ";
 
         $result = mysqli_query($con,$s);
         $num = mysqli_num_rows($result);
@@ -2736,7 +2916,7 @@ showCourse();
                 <select class="form-control" name="course" required>
                     <?php  
                      global $id,$con;
-                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory' ";
+                     $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id and courselist.type ='Theory' or courselist.type ='Lab' ";
 
                      $result = mysqli_query($con,$s);
                      $num = mysqli_num_rows($result);        
@@ -2802,9 +2982,20 @@ showCourse();
     }
 
     if(isset($_POST["showResultSheet"]))
-    {
-        echo '<script type="text/javascript">myFunction();</script>';
-        $rollStart = $_POST['rollStart'];
+    {   echo '<script type="text/javascript">myFunction();</script>';
+
+        $cid=$_POST['course'];
+        $ds = "SELECT * From courselist WHERE cid=$cid";
+        $dr = mysqli_query($con,$ds);
+        $dv = mysqli_fetch_assoc($dr);
+       
+       
+       
+       
+        if($dv['type']=='Theory')
+        {
+
+            $rollStart = $_POST['rollStart'];
         $rollEnd = $_POST['rollEnd'];
         $course = $_POST['course'];
 
@@ -3098,6 +3289,232 @@ showCourse();
           </div>
           </div>
         <?php
+
+      
+
+
+
+
+        }
+
+        if($dv['type']=='Lab')
+        {
+
+
+
+            $rollStart = $_POST['rollStart'];
+            $rollEnd = $_POST['rollEnd'];
+            $course = $_POST['course'];
+
+
+    
+            $ds = "SELECT * From courselist WHERE cid=$course";
+            $dr = mysqli_query($con,$ds);
+            $dv = mysqli_fetch_assoc($dr);
+    
+    
+    
+            ?>
+             <div class="d-flex justify-content-center" >
+                 <div class="list">
+                 <div class="list">
+            <div class="container"  >
+            <h4><p> <u> Lab mark </u>  </p></h4>
+    
+                            <div class="row">
+                                <div class="col-sm-5" >
+                                <h5><p>  Course Code   </p></h5>
+                                </div>
+                                <div class="col-sm-1" >
+                                <h5><p>:</p></h5>
+                                </div>
+                                <div class="col-sm-6" >
+                                <h5> <p>     <?php echo $dv['ccode']?>    </p></h5>
+    
+                                </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-sm-5" >
+                                <h5><p>  Course Name   </p></h5>
+                                </div>
+                                <div class="col-sm-1" >
+                                <h5><p>:</p></h5>
+                                </div>
+                                <div class="col-sm-6" >
+                                <h5> <p>     <?php echo $dv['cname']?>   </p></h5>
+    
+                                </div>
+                            </div>
+            </div>   </div>
+    
+    
+    
+    
+    
+            
+                <table class="table table-striped table-bordered" style="max-width: 500px;">
+                    <tr>
+                        <td>Roll</td>
+                        <td>Attandance Mark</td>
+                        <td>Quiz</td>
+                        <td>Performance/Report</td>
+                        <td>Viva</td>
+                        <td>Total</td>
+                        <td>Grade</td>
+                        <td>Grade point</td>
+
+
+                    </tr>
+            
+            <?php
+            $datatable='lab';
+            for($i=$rollStart;$i<=$rollEnd;$i++)
+            {
+    
+                $s = "select * from $datatable where  cid='$course' && roll='$i'";
+                $result = mysqli_query($con,$s);
+                $num = mysqli_num_rows($result);
+    
+                $quiz;
+                $perform;
+                $viva;
+                if($num==0)
+                {
+                    
+                    $quiz='';
+                    $perform='';
+                    $viva='';
+    
+                }
+                else
+                {
+                    $var = mysqli_fetch_assoc($result); 
+    
+                    $quiz=$var['quiz'];
+                    $perform=$var['perform'];
+                    $viva=$var['viva'];
+                }
+    
+                
+                $ls = "SELECT AVG(attendance.attendance)*100 as per FROM attendance WHERE attendance.roll='$i' and attendance.cid='$course';";
+                $lresult = mysqli_query($con,$ls);
+                $lvar = mysqli_fetch_assoc($lresult); 
+    
+                $Amark=0;
+                $percentage=$lvar['per'];
+                if($percentage>=90)
+                {
+                    $Amark=8;
+                }
+                else if($percentage>=85)
+                {
+                    $Amark=7;
+                }
+                else if($percentage>=80)
+                {
+                    $Amark=6;
+                }
+                else if($percentage>=70)
+                {
+                    $Amark=5;
+                }
+                else if($percentage>=60)
+                {
+                    $Amark=4;
+                }
+                $total=0;
+                $total = $Amark + $quiz +  $perform + $viva;
+    
+                ?>
+    
+                    <tr>
+                        <td><?php echo $i?></td>
+                        <td><?php echo $Amark?></td>
+                        <td><?php echo  $quiz?></td>
+                        <td><?php echo   $perform?></td>
+                        <td><?php echo  $viva?></td>
+                        <td><?php echo   $total?></td>
+
+                        <?php
+                        $totalmarks=$total;
+                        if($totalmarks>=80)
+                        {
+                            $grade='A+';
+                            $gradePoint='4.00';
+                        }
+                        else if($totalmarks>=75)
+                        {
+                            $grade='A';
+                            $gradePoint='3.75';
+                        }
+                        else if($totalmarks>=70)
+                        {
+                            $grade='A-';
+                            $gradePoint='3.50';
+                        }
+                        else if($totalmarks>=65)
+                        {
+                            $grade='B+';
+                            $gradePoint='3.25';
+                        }
+                        else if($totalmarks>=60)
+                        {
+                            $grade='B';
+                            $gradePoint='3.00';
+                        }
+                        else if($totalmarks>=55)
+                        {
+                            $grade='B-';
+                            $gradePoint='2.75';
+                        }
+                        else if($totalmarks>=50)
+                        {
+                            $grade='C+';
+                            $gradePoint='2.50';
+                        }
+                        else if($totalmarks>=45)
+                        {
+                            $grade='C';
+                            $gradePoint='2.25';
+                        }
+                        else if($totalmarks>=40)
+                        {
+                            $grade='D';
+                            $gradePoint='2.00';
+                        }
+                        else
+                        {
+                            $grade='F';
+                            $gradePoint='0';
+                        }
+            
+            
+            
+                        echo "<td>$grade</td>";
+                        echo "<td>$gradePoint</td>";
+                        
+                        
+                        ?>
+
+                    </tr>
+                       
+                <?php
+    
+            }
+    
+            ?>
+            </table>
+
+          
+             </div>
+             </div>
+            
+            <?php
+            
+
+
+        }
+
 
     }
 
