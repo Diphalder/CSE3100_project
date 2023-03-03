@@ -1,5 +1,7 @@
 <?php
 
+use Sabberworm\CSS\Value\Size;
+
 require 'connect_DB.php';
 
 session_start();
@@ -46,7 +48,10 @@ if($type!="Teacher"){
 <title> login and registration </title>
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="sstyle.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
         function myFunction() {
   var x = document.getElementById("profileid");
@@ -109,7 +114,6 @@ function deSelect(){
 </div>
 
 
-
 <div id="profileid" >
 
 
@@ -157,14 +161,14 @@ function deSelect(){
             <div class="col-sm-7">
                 <div class="minibox">
                 <div class="container"  >
-                    <h3><p>Information :  </p></h3>
+                    <h3><p>information :  </p></h3>
 
                        
                         
                         
                         <div class="row">
                         <div class="col-sm-3" >
-                        <h6><p>Dept. code  </p></h6>
+                        <h6><p>dept. code  </p></h6>
 
                         </div>
                         <div class="col-sm-1" >
@@ -1574,7 +1578,6 @@ if(isset($_POST["savefinalmarks"]))
                             
                         }
 
-
                     } 
                     ?>
                 
@@ -1950,7 +1953,7 @@ if(isset($_POST["deleteCourse"]))
 
 
     global $id,$con;
-    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.cname , courselist.year, courselist.semester FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id order by year,semester desc";
+    $s = "SELECT distinct(courselist.cid) , courselist.ccode , courselist.type, courselist.cname , courselist.year, courselist.semester FROM courselist, course WHERE courselist.cid = course.cid and course.personID=$id order by year,semester desc";
     $result = mysqli_query($con,$s);
     $num = mysqli_num_rows($result);
 
@@ -2464,6 +2467,33 @@ showCourse();
                 </select>
     
             </div>
+
+            <div>
+             <label>Course Outcome</label>
+               
+             <table class="table table-striped table-bordered" ">
+                    <tr>
+                        <td>Course outcome </td>
+                        <td>select </td>
+                        <td>Total mark </td>
+                    </tr>
+               
+               <?php 
+                for($i=1;$i<=5;$i++)
+                {?><tr>
+                <td style="text-align: center;">CO<?php echo $i?></td>
+                    <div class="checkbox"  ><td style="text-align: center;"><input type="checkbox" class="largerCheckbox"  value="CO<?php echo $i?>" name="COS[]"></td></div>
+                    
+                   <td style="text-align: center;"><input type="number" min="0" max="20" value="0" name="totalCO<?php echo $i?>"></td>
+                   </tr>
+                   <?php
+                    }
+                ?>
+             </table>
+    
+            </div>
+
+            
             
 
             <div class="d-flex justify-content-end">
@@ -2515,6 +2545,19 @@ showCourse();
         $rollEnd = $_POST['rollEnd'];
         $course = $_POST['course'];
         $ctno = $_POST['ctno'];
+        $COS=$_POST['COS'];
+
+        $coTotalMark[]="";
+
+
+        for($i=0;$i<sizeof($COS);$i++)
+        {
+            $coTotalMark["$COS[$i]"]=$_POST["total$COS[$i]"];
+        }
+
+
+
+        
 
         $ds = "SELECT * From courselist WHERE cid=$course";
         $dr = mysqli_query($con,$ds);
@@ -2574,11 +2617,36 @@ showCourse();
                 <input type="hidden" name="course" value="<?php echo $course?>">
                 <input type="hidden" name="ctno" value="<?php echo $ctno?>">
 
+                <?php 
+                 for($i=0;$i<sizeof($COS);$i++)
+                 {
+                    ?>
+                    <input type="hidden" name="COS[]" value="<?php echo $COS[$i]?>">
+                    <?php 
+
+                 }
+                 for($i=0;$i<sizeof($COS);$i++)
+                 {
+                    ?>
+                    <input type="hidden" name="total<?php echo $COS[$i]?>" value="<?php echo $coTotalMark["$COS[$i]"]?>">
+                    <?php 
+                 }
+                
+                ?>
+                
+
         
             <table class="table table-striped table-bordered" style="max-width: 500px;">
                 <tr>
                     <td><h5>student Roll</h5></td>
-                    <td><h5>Class-Test Marks</h5></td>
+                    <td><h5>Class-Test Marks <br>(20)</h5></td>
+                    <?php
+                    for($i=0;$i<sizeof($COS);$i++)
+                    {
+                        $coid=$COS[$i];
+                        echo"<td><h5>$COS[$i]<br>$coTotalMark[$coid]</h5></td>";
+                    } 
+                    ?>
                 </tr>
         
         <?php
@@ -2607,9 +2675,40 @@ showCourse();
 				<tr>
                     <td><?php echo $i?></td>
                     <td style="text-align: center;"><input type="number" min="0" max="20" value="<?php echo $value?>" name="<?php echo $i?>"></td>
-                </tr>
+                
                    
             <?php
+
+            for($j=0;$j<sizeof($COS);$j++)
+            {
+
+                $s = "select * from co where no='$ctno' && cid='$course' && roll='$i' && cono='$COS[$j]' ORDER BY id DESC";
+                $result = mysqli_query($con,$s);
+                $num = mysqli_num_rows($result);
+
+                $value;
+                if($num==0)
+                {
+                    $value=''; 
+                }
+                else
+                {
+                    $var = mysqli_fetch_assoc($result);         
+                    $value=$var['mark'];
+                }
+                $coid=$COS[$j];
+
+                ?>            
+                    <td style="text-align: center;"><input type="number" min="0" max="<?php echo $coTotalMark[$coid]?>"  value="<?php echo $value?>" name="<?php echo "$i$COS[$j]"?>"></td>
+                    
+        
+               <?php
+
+            }
+
+            
+            ?></tr><?php
+        
 
         }
 
@@ -2638,6 +2737,17 @@ showCourse();
         $rollEnd = $_POST['rollEnd'];
         $course = $_POST['course'];
         $ctno = $_POST['ctno'];
+        $COS=$_POST['COS'];
+
+        $coTotalMark[]='';
+
+    
+        for($i=0;$i<sizeof($COS);$i++)
+        {
+            $coTotalMark["$COS[$i]"]=$_POST["total$COS[$i]"];
+            echo $coTotalMark["$COS[$i]"];
+        }
+
 
 
         $datatable="marks";
@@ -2671,6 +2781,43 @@ showCourse();
 
                 mysqli_query($con,$query);
 
+
+            }
+
+            for($j=0;$j<sizeof($COS);$j++)
+            {
+
+                $x=$_POST["$i$COS[$j]"];
+                if($x=="")
+                {
+                    $x='A';
+                }
+                $coid=$COS[$j];
+                
+
+                $s = "select * from co where no='$ctno' && cid='$course' && roll='$i' && cono='$COS[$j]' ORDER BY id DESC";
+                $result = mysqli_query($con,$s);
+                $num = mysqli_num_rows($result);
+
+                if($num==0)
+                {
+                    $query = "INSERT INTO co VALUES('','$i','$course','$ctno','$COS[$j]','$x','$coTotalMark[$coid]') ";
+
+
+                    mysqli_query($con,$query);
+        
+                }
+                else
+                {
+                    $var = mysqli_fetch_assoc($result);         
+                    $newID=$var['id'];
+
+                    $query = "UPDATE co  SET mark='$x' ,fullmark='$coTotalMark[$coid]' WHERE id=$newID";
+
+                    mysqli_query($con,$query);
+
+
+                }
 
             }
 
